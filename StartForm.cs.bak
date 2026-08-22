@@ -1,0 +1,725 @@
+﻿using BearingInspection;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
+using System.Windows.Forms;
+
+namespace YiRongMachine
+{
+    public partial class StartForm : Form
+    {
+        private bool bLoad = true;
+
+        public StartForm()
+        {
+            InitializeComponent();
+            richTextBox1.AppendText(DateTime.Now.ToString("HH:mm:ss") + "：正在启动易荣机电科技有限公司的标准视觉软件\r\n");
+        }
+
+        private void StartForm_Load(object sender, EventArgs e)
+        {
+            timer1.Enabled = true;
+            timer1.Interval = 100;
+        }
+
+        private void loadErrorCodeStatistic()
+        {
+            string msg = "";
+            JsonHelper.ReadJsonFile(FilePath.duanMianAStatisticPath, ref GlobalVariable.duanMianAErrCodeStatistic, ref msg);
+            JsonHelper.ReadJsonFile(FilePath.waiYuanAStatisticPath, ref GlobalVariable.waiYuanAErrCodeStatistic, ref msg);
+            JsonHelper.ReadJsonFile(FilePath.daoJiaoAStatisticPath, ref GlobalVariable.daoJiaoAErrCodeStatistic, ref msg);
+            JsonHelper.ReadJsonFile(FilePath.neiKongStatisticPath, ref GlobalVariable.neiKongErrCodeStatistic, ref msg);
+            JsonHelper.ReadJsonFile(FilePath.duanMianBStatisticPath, ref GlobalVariable.duanMianBErrCodeStatistic, ref msg);
+            JsonHelper.ReadJsonFile(FilePath.waiYuanBStatisticPath, ref GlobalVariable.waiYuanBErrCodeStatistic, ref msg);
+            JsonHelper.ReadJsonFile(FilePath.daoJiaoBStatisticPath, ref GlobalVariable.daoJiaoBErrCodeStatistic, ref msg);
+
+            if (GlobalVariable.duanMianAErrCodeStatistic == null)
+            {
+                GlobalVariable.duanMianAErrCodeStatistic = new Dictionary<string, int>();
+            }
+            if (GlobalVariable.waiYuanAErrCodeStatistic == null)
+            {
+                GlobalVariable.waiYuanAErrCodeStatistic = new Dictionary<string, int>();
+            }
+            if (GlobalVariable.daoJiaoAErrCodeStatistic == null)
+            {
+                GlobalVariable.daoJiaoAErrCodeStatistic = new Dictionary<string, int>();
+            }
+            if (GlobalVariable.neiKongErrCodeStatistic == null)
+            {
+                GlobalVariable.neiKongErrCodeStatistic = new Dictionary<string, int>();
+            }
+            if (GlobalVariable.duanMianBErrCodeStatistic == null)
+            {
+                GlobalVariable.duanMianBErrCodeStatistic = new Dictionary<string, int>();
+            }
+            if (GlobalVariable.waiYuanBErrCodeStatistic == null)
+            {
+                GlobalVariable.waiYuanBErrCodeStatistic = new Dictionary<string, int>();
+            }
+            if (GlobalVariable.daoJiaoBErrCodeStatistic == null)
+            {
+                GlobalVariable.daoJiaoBErrCodeStatistic = new Dictionary<string, int>();
+            }
+        }
+
+        public void initMultiImgDetect()
+        {
+            if (GlobalVariable.configSetting.daoJiaoAParam.rect != null && GlobalVariable.configSetting.daoJiaoAParam.rect.Count() != BearingInspection.Global.multiImgDetectNum)
+            {
+                detectRect[] rects = new detectRect[GlobalVariable.configSetting.daoJiaoAParam.rect.Count()];
+                for (int i = 0; i < rects.Count(); i++)
+                {
+                    rects[i] = GlobalVariable.configSetting.daoJiaoAParam.rect[i];
+                }
+                GlobalVariable.configSetting.daoJiaoAParam.rect = new detectRect[BearingInspection.Global.multiImgDetectNum];
+                for (int i = 0; i < rects.Count(); i++)
+                {
+                    GlobalVariable.configSetting.daoJiaoAParam.rect[i] = rects[i];
+                }
+            }
+            if (GlobalVariable.configSetting.neiKongParam.rect != null && GlobalVariable.configSetting.neiKongParam.rect.Count() != BearingInspection.Global.multiImgDetectNum)
+            {
+                detectRect[] rects = new detectRect[GlobalVariable.configSetting.neiKongParam.rect.Count()];
+                for (int i = 0; i < rects.Count(); i++)
+                {
+                    rects[i] = GlobalVariable.configSetting.neiKongParam.rect[i];
+                }
+                GlobalVariable.configSetting.neiKongParam.rect = new detectRect[BearingInspection.Global.multiImgDetectNum];
+                for (int i = 0; i < rects.Count(); i++)
+                {
+                    GlobalVariable.configSetting.neiKongParam.rect[i] = rects[i];
+                }
+            }
+            if (GlobalVariable.configSetting.waiYuanBParam.rect != null && GlobalVariable.configSetting.waiYuanBParam.rect.Count() != BearingInspection.Global.multiImgDetectNum)
+            {
+                detectRect[] rects = new detectRect[GlobalVariable.configSetting.waiYuanBParam.rect.Count()];
+                for (int i = 0; i < rects.Count(); i++)
+                {
+                    rects[i] = GlobalVariable.configSetting.waiYuanBParam.rect[i];
+                }
+                GlobalVariable.configSetting.waiYuanBParam.rect = new detectRect[BearingInspection.Global.multiImgDetectNum];
+                for (int i = 0; i < rects.Count(); i++)
+                {
+                    GlobalVariable.configSetting.waiYuanBParam.rect[i] = rects[i];
+                }
+            }
+            if (GlobalVariable.configSetting.daoJiaoBParam.rect != null && GlobalVariable.configSetting.daoJiaoBParam.rect.Count() != BearingInspection.Global.multiImgDetectNum)
+            {
+                detectRect[] rects = new detectRect[GlobalVariable.configSetting.daoJiaoBParam.rect.Count()];
+                for (int i = 0; i < rects.Count(); i++)
+                {
+                    rects[i] = GlobalVariable.configSetting.daoJiaoBParam.rect[i];
+                }
+                GlobalVariable.configSetting.daoJiaoBParam.rect = new detectRect[BearingInspection.Global.multiImgDetectNum];
+                for (int i = 0; i < rects.Count(); i++)
+                {
+                    GlobalVariable.configSetting.daoJiaoBParam.rect[i] = rects[i];
+                }
+            }
+            if (GlobalVariable.configSetting.daoJiaoAFlag.blobEnable != null && GlobalVariable.configSetting.daoJiaoAFlag.blobEnable.Count() != BearingInspection.Global.multiImgDetectNum)
+            {
+                bool[] blobEnables = new bool[GlobalVariable.configSetting.daoJiaoAFlag.blobEnable.Count()];
+                for (int i = 0; i < blobEnables.Count(); i++)
+                {
+                    blobEnables[i] = GlobalVariable.configSetting.daoJiaoAFlag.blobEnable[i];
+                }
+                GlobalVariable.configSetting.daoJiaoAFlag.blobEnable = new bool[BearingInspection.Global.multiImgDetectNum];
+                for (int i = 0; i < blobEnables.Count(); i++)
+                {
+                    GlobalVariable.configSetting.daoJiaoAFlag.blobEnable[i] = blobEnables[i];
+                }
+            }
+            if (GlobalVariable.configSetting.neiKongFlag.blobEnable != null && GlobalVariable.configSetting.neiKongFlag.blobEnable.Count() != BearingInspection.Global.multiImgDetectNum)
+            {
+                bool[] blobEnables = new bool[GlobalVariable.configSetting.neiKongFlag.blobEnable.Count()];
+                for (int i = 0; i < blobEnables.Count(); i++)
+                {
+                    blobEnables[i] = GlobalVariable.configSetting.neiKongFlag.blobEnable[i];
+                }
+                GlobalVariable.configSetting.neiKongFlag.blobEnable = new bool[BearingInspection.Global.multiImgDetectNum];
+                for (int i = 0; i < blobEnables.Count(); i++)
+                {
+                    GlobalVariable.configSetting.neiKongFlag.blobEnable[i] = blobEnables[i];
+                }
+            }
+            if (GlobalVariable.configSetting.waiYuanBFlag.blobEnable != null && GlobalVariable.configSetting.waiYuanBFlag.blobEnable.Count() != BearingInspection.Global.multiImgDetectNum)
+            {
+                bool[] blobEnables = new bool[GlobalVariable.configSetting.waiYuanBFlag.blobEnable.Count()];
+                for (int i = 0; i < blobEnables.Count(); i++)
+                {
+                    blobEnables[i] = GlobalVariable.configSetting.waiYuanBFlag.blobEnable[i];
+                }
+                GlobalVariable.configSetting.waiYuanBFlag.blobEnable = new bool[BearingInspection.Global.multiImgDetectNum];
+                for (int i = 0; i < blobEnables.Count(); i++)
+                {
+                    GlobalVariable.configSetting.waiYuanBFlag.blobEnable[i] = blobEnables[i];
+                }
+            }
+            if (GlobalVariable.configSetting.daoJiaoBFlag.blobEnable != null && GlobalVariable.configSetting.daoJiaoBFlag.blobEnable.Count() != BearingInspection.Global.multiImgDetectNum)
+            {
+                bool[] blobEnables = new bool[GlobalVariable.configSetting.daoJiaoBFlag.blobEnable.Count()];
+                for (int i = 0; i < blobEnables.Count(); i++)
+                {
+                    blobEnables[i] = GlobalVariable.configSetting.daoJiaoBFlag.blobEnable[i];
+                }
+                GlobalVariable.configSetting.daoJiaoBFlag.blobEnable = new bool[BearingInspection.Global.multiImgDetectNum];
+                for (int i = 0; i < blobEnables.Count(); i++)
+                {
+                    GlobalVariable.configSetting.daoJiaoBFlag.blobEnable[i] = blobEnables[i];
+                }
+            }
+
+            if (GlobalVariable.configSetting.daoJiaoAParam.rect == null)
+            {
+                GlobalVariable.configSetting.daoJiaoAParam.rect = new detectRect[BearingInspection.Global.multiImgDetectNum];
+            }
+            if (GlobalVariable.configSetting.neiKongParam.rect == null)
+            {
+                GlobalVariable.configSetting.neiKongParam.rect = new detectRect[BearingInspection.Global.multiImgDetectNum];
+            }
+            if (GlobalVariable.configSetting.waiYuanBParam.rect == null)
+            {
+                GlobalVariable.configSetting.waiYuanBParam.rect = new detectRect[BearingInspection.Global.multiImgDetectNum];
+            }
+            if (GlobalVariable.configSetting.daoJiaoBParam.rect == null)
+            {
+                GlobalVariable.configSetting.daoJiaoBParam.rect = new detectRect[BearingInspection.Global.multiImgDetectNum];
+            }
+
+            if (GlobalVariable.configSetting.daoJiaoAFlag.blobEnable == null)
+            {
+                GlobalVariable.configSetting.daoJiaoAFlag.blobEnable = new bool[BearingInspection.Global.multiImgDetectNum];
+            }
+            if (GlobalVariable.configSetting.neiKongFlag.blobEnable == null)
+            {
+                GlobalVariable.configSetting.neiKongFlag.blobEnable = new bool[BearingInspection.Global.multiImgDetectNum];
+            }
+            if (GlobalVariable.configSetting.waiYuanBFlag.blobEnable == null)
+            {
+                GlobalVariable.configSetting.waiYuanBFlag.blobEnable = new bool[BearingInspection.Global.multiImgDetectNum];
+            }
+            if (GlobalVariable.configSetting.daoJiaoBFlag.blobEnable == null)
+            {
+                GlobalVariable.configSetting.daoJiaoBFlag.blobEnable = new bool[BearingInspection.Global.multiImgDetectNum];
+            }
+        }
+
+        public void Load111()
+        {
+            bool bWrong = false;
+            string ErrorMsg = "";
+            int plcErrorCode = 0;
+            string TotalErrorMsg = "错误信息为：\r\n";
+
+            loadErrorCodeStatistic();
+
+            #region 注册码校验
+            bool bRtn = true;// RegistrationCodeFunction.Check();
+            //if (!bRtn)
+            //{
+            //    RegistrationCodeForm f = new RegistrationCodeForm();
+            //    if (f.ShowDialog() != DialogResult.OK)
+            //    {
+            //        Environment.Exit(0);
+            //    }
+            //}
+            //else
+            //{
+            //    richTextBox1.AppendText(DateTime.Now.ToString("HH:mm:ss") + "：注册码校验成功......\r\n");
+            //    richTextBox1.Refresh();
+            //}
+            #endregion 注册码校验
+
+            #region 全局参数第一次实例化
+            bRtn = GlobalVariable.Init();
+            if (!bRtn)
+            {
+                UIHelper.RichTestBoxAppendTextColorful(richTextBox1, DateTime.Now.ToString("HH:mm:ss") + "：实例化全局参数失败......\r\n", Color.Red);
+                MessageBox.Show("实例化全局参数错误");
+                bWrong = true;
+            }
+            else
+            {
+                richTextBox1.AppendText(DateTime.Now.ToString("HH:mm:ss") + "：实例化全局参数成功......\r\n");
+                richTextBox1.Refresh();
+            }
+            #endregion 全局参数第一次实例化
+
+            #region 从配置文件中加载厂商设置
+            bRtn = JsonHelper.ReadJsonFile(FilePath.VendorSettingPath, ref GlobalVariable.machineSetting, ref ErrorMsg);
+            if (!bRtn)
+            {
+                UIHelper.RichTestBoxAppendTextColorful(richTextBox1, DateTime.Now.ToString("HH:mm:ss") + "：加载厂商设置失败......\r\n", Color.Red);
+                MessageBox.Show("加载厂商设置错误");
+                bWrong = true;
+            }
+            else
+            {
+                richTextBox1.AppendText(DateTime.Now.ToString("HH:mm:ss") + "：加载厂商设置成功......\r\n");
+                richTextBox1.Refresh();
+            }
+            #endregion 从配置文件中加载厂商设置
+
+            #region 从配置文件中加载通用设置
+            bRtn = JsonHelper.ReadJsonFile(FilePath.GeneralSettingPath, ref GlobalVariable.generalSetting, ref ErrorMsg);
+            if (!bRtn)
+            {
+                UIHelper.RichTestBoxAppendTextColorful(richTextBox1, DateTime.Now.ToString("HH:mm:ss") + "：加载通用设置失败......\r\n", Color.Red);
+                MessageBox.Show("加载通用设置错误");
+                bWrong = true;
+            }
+            else
+            {
+                richTextBox1.AppendText(DateTime.Now.ToString("HH:mm:ss") + "：加载通用设置成功......\r\n");
+                richTextBox1.Refresh();
+            }
+            #endregion 从配置文件中加载通用设置
+
+            #region 从配置文件中加载硬件设置
+            bRtn = JsonHelper.ReadJsonFile(FilePath.HardwareSettingPath, ref GlobalVariable.hardwareSetting, ref ErrorMsg);
+            if (!bRtn)
+            {
+                UIHelper.RichTestBoxAppendTextColorful(richTextBox1, DateTime.Now.ToString("HH:mm:ss") + "：加载硬件设置失败......\r\n", Color.Red);
+                MessageBox.Show("加载硬件设置错误");
+                bWrong = true;
+            }
+            else
+            {
+                richTextBox1.AppendText(DateTime.Now.ToString("HH:mm:ss") + "：加载硬件设置成功......\r\n");
+                richTextBox1.Refresh();
+            }
+            #endregion 从配置文件中加载硬件设置
+
+            #region 从配置文件中加载参数设置
+            bRtn = JsonHelper.ReadJsonFile(FilePath.ParamSettingPath + GlobalVariable.configname + "\\Param.Json", ref GlobalVariable.configSetting, ref ErrorMsg);
+            if (!bRtn)
+            {
+                UIHelper.RichTestBoxAppendTextColorful(richTextBox1, DateTime.Now.ToString("HH:mm:ss") + "：加载参数设置失败......\r\n", Color.Red);
+                MessageBox.Show("加载参数设置错误");
+                bWrong = true;
+            }
+            else
+            {
+                richTextBox1.AppendText(DateTime.Now.ToString("HH:mm:ss") + "：加载参数设置成功......\r\n");
+                richTextBox1.Refresh();
+            }
+            #endregion 从配置文件中加载参数设置
+
+            #region
+            if (GlobalVariable.configSetting.duanMianACameraPhotoSetting.photoNumber <= 0)
+            {
+                GlobalVariable.configSetting.duanMianACameraPhotoSetting.photoNumber = GlobalVariable.iDuanMianAPictureNumber;
+            }
+            if (GlobalVariable.configSetting.duanMianACameraPhotoSetting.photoSpan <= 0)
+            {
+                GlobalVariable.configSetting.duanMianACameraPhotoSetting.photoSpan = 1;
+            }
+            if (GlobalVariable.configSetting.waiYuanACameraPhotoSetting.photoNumber <= 0)
+            {
+                GlobalVariable.configSetting.waiYuanACameraPhotoSetting.photoNumber = GlobalVariable.iWaiYuanAPictureNumber;
+            }
+            else
+            {
+                GlobalVariable.configSetting.waiYuanACameraPhotoSetting.photoNumber = GlobalVariable.iWaiYuanAPictureNumber;
+            }
+            if (GlobalVariable.configSetting.waiYuanACameraPhotoSetting.photoSpan <= 0)
+            {
+                GlobalVariable.configSetting.waiYuanACameraPhotoSetting.photoSpan = 1;
+            }
+            if (GlobalVariable.configSetting.daoJiaoACameraPhotoSetting.photoNumber <= 0)
+            {
+                GlobalVariable.configSetting.daoJiaoACameraPhotoSetting.photoNumber = GlobalVariable.iDaoJiaoAPictureNumber;
+            }
+            if (GlobalVariable.configSetting.daoJiaoACameraPhotoSetting.photoSpan <= 0)
+            {
+                GlobalVariable.configSetting.daoJiaoACameraPhotoSetting.photoSpan = 1;
+            }
+            if (GlobalVariable.configSetting.neiKongCameraPhotoSetting.photoNumber <= 0)
+            {
+                GlobalVariable.configSetting.neiKongCameraPhotoSetting.photoNumber = GlobalVariable.iNeiKongPictureNumber;
+            }
+            if (GlobalVariable.configSetting.neiKongCameraPhotoSetting.photoSpan <= 0)
+            {
+                GlobalVariable.configSetting.neiKongCameraPhotoSetting.photoSpan = 1;
+            }
+            if (GlobalVariable.configSetting.duanMianBCameraPhotoSetting.photoNumber <= 0)
+            {
+                GlobalVariable.configSetting.duanMianBCameraPhotoSetting.photoNumber = GlobalVariable.iDuanMianBPictureNumber;
+            }
+            if (GlobalVariable.configSetting.duanMianBCameraPhotoSetting.photoSpan <= 0)
+            {
+                GlobalVariable.configSetting.duanMianBCameraPhotoSetting.photoSpan = 1;
+            }
+            if (GlobalVariable.configSetting.waiYuanBCameraPhotoSetting.photoNumber <= 0)
+            {
+                GlobalVariable.configSetting.waiYuanBCameraPhotoSetting.photoNumber = GlobalVariable.iWaiYuanBPictureNumber;
+            }
+            if (GlobalVariable.configSetting.waiYuanBCameraPhotoSetting.photoSpan <= 0)
+            {
+                GlobalVariable.configSetting.waiYuanBCameraPhotoSetting.photoSpan = 1;
+            }
+            if (GlobalVariable.configSetting.daoJiaoBCameraPhotoSetting.photoNumber <= 0)
+            {
+                GlobalVariable.configSetting.daoJiaoBCameraPhotoSetting.photoNumber = GlobalVariable.iDaoJiaoBPictureNumber;
+            }
+            if (GlobalVariable.configSetting.daoJiaoBCameraPhotoSetting.photoSpan <= 0)
+            {
+                GlobalVariable.configSetting.daoJiaoBCameraPhotoSetting.photoSpan = 1;
+            }
+
+            if (GlobalVariable.configSetting.duanMianACameraPhotoSetting.exposure == null)
+            {
+                GlobalVariable.configSetting.duanMianACameraPhotoSetting.exposure = new double[GlobalVariable.configSetting.duanMianACameraPhotoSetting.photoNumber];
+            }
+            if (GlobalVariable.configSetting.duanMianACameraPhotoSetting.lightsCmd == null)
+            {
+                GlobalVariable.configSetting.duanMianACameraPhotoSetting.lightsCmd = new string[GlobalVariable.configSetting.duanMianACameraPhotoSetting.photoNumber];
+            }
+            if (GlobalVariable.configSetting.duanMianACameraPhotoSetting.gain == null)
+            {
+                GlobalVariable.configSetting.duanMianACameraPhotoSetting.gain = new double[GlobalVariable.configSetting.duanMianACameraPhotoSetting.photoNumber];
+            }
+
+            if (GlobalVariable.configSetting.waiYuanACameraPhotoSetting.exposure == null)
+            {
+                GlobalVariable.configSetting.waiYuanACameraPhotoSetting.exposure = new double[GlobalVariable.configSetting.waiYuanACameraPhotoSetting.photoNumber];
+            }
+            if (GlobalVariable.configSetting.waiYuanACameraPhotoSetting.lightsCmd == null)
+            {
+                GlobalVariable.configSetting.waiYuanACameraPhotoSetting.lightsCmd = new string[GlobalVariable.configSetting.waiYuanACameraPhotoSetting.photoNumber];
+            }
+            if (GlobalVariable.configSetting.waiYuanACameraPhotoSetting.gain == null)
+            {
+                GlobalVariable.configSetting.waiYuanACameraPhotoSetting.gain = new double[GlobalVariable.configSetting.waiYuanACameraPhotoSetting.photoNumber];
+            }
+
+            if (GlobalVariable.configSetting.daoJiaoACameraPhotoSetting.exposure == null)
+            {
+                GlobalVariable.configSetting.daoJiaoACameraPhotoSetting.exposure = new double[GlobalVariable.configSetting.daoJiaoACameraPhotoSetting.photoNumber];
+            }
+            if (GlobalVariable.configSetting.daoJiaoACameraPhotoSetting.lightsCmd == null)
+            {
+                GlobalVariable.configSetting.daoJiaoACameraPhotoSetting.lightsCmd = new string[GlobalVariable.configSetting.daoJiaoACameraPhotoSetting.photoNumber];
+            }
+            if (GlobalVariable.configSetting.daoJiaoACameraPhotoSetting.gain == null)
+            {
+                GlobalVariable.configSetting.daoJiaoACameraPhotoSetting.gain = new double[1];
+            }
+
+            if (GlobalVariable.configSetting.neiKongCameraPhotoSetting.exposure == null)
+            {
+                GlobalVariable.configSetting.neiKongCameraPhotoSetting.exposure = new double[GlobalVariable.configSetting.neiKongCameraPhotoSetting.photoNumber];
+            }
+            if (GlobalVariable.configSetting.neiKongCameraPhotoSetting.lightsCmd == null)
+            {
+                GlobalVariable.configSetting.neiKongCameraPhotoSetting.lightsCmd = new string[GlobalVariable.configSetting.neiKongCameraPhotoSetting.photoNumber];
+            }
+            if (GlobalVariable.configSetting.neiKongCameraPhotoSetting.gain == null)
+            {
+                GlobalVariable.configSetting.neiKongCameraPhotoSetting.gain = new double[1];
+            }
+
+            if (GlobalVariable.configSetting.duanMianBCameraPhotoSetting.exposure == null)
+            {
+                GlobalVariable.configSetting.duanMianBCameraPhotoSetting.exposure = new double[GlobalVariable.configSetting.duanMianBCameraPhotoSetting.photoNumber];
+            }
+            if (GlobalVariable.configSetting.duanMianBCameraPhotoSetting.lightsCmd == null)
+            {
+                GlobalVariable.configSetting.duanMianBCameraPhotoSetting.lightsCmd = new string[GlobalVariable.configSetting.duanMianBCameraPhotoSetting.photoNumber];
+            }
+            if (GlobalVariable.configSetting.duanMianBCameraPhotoSetting.gain == null)
+            {
+                GlobalVariable.configSetting.duanMianBCameraPhotoSetting.gain = new double[GlobalVariable.configSetting.duanMianBCameraPhotoSetting.photoNumber];
+            }
+
+            if (GlobalVariable.configSetting.waiYuanBCameraPhotoSetting.exposure == null)
+            {
+                GlobalVariable.configSetting.waiYuanBCameraPhotoSetting.exposure = new double[GlobalVariable.configSetting.waiYuanBCameraPhotoSetting.photoNumber];
+            }
+            if (GlobalVariable.configSetting.waiYuanBCameraPhotoSetting.lightsCmd == null)
+            {
+                GlobalVariable.configSetting.waiYuanBCameraPhotoSetting.lightsCmd = new string[GlobalVariable.configSetting.waiYuanBCameraPhotoSetting.photoNumber];
+            }
+            if (GlobalVariable.configSetting.waiYuanBCameraPhotoSetting.gain == null)
+            {
+                GlobalVariable.configSetting.waiYuanBCameraPhotoSetting.gain = new double[1];
+            }
+
+            if (GlobalVariable.configSetting.daoJiaoBCameraPhotoSetting.exposure == null)
+            {
+                GlobalVariable.configSetting.daoJiaoBCameraPhotoSetting.exposure = new double[GlobalVariable.configSetting.daoJiaoBCameraPhotoSetting.photoNumber];
+            }
+            if (GlobalVariable.configSetting.daoJiaoBCameraPhotoSetting.lightsCmd == null)
+            {
+                GlobalVariable.configSetting.daoJiaoBCameraPhotoSetting.lightsCmd = new string[GlobalVariable.configSetting.daoJiaoBCameraPhotoSetting.photoNumber];
+            }
+            if (GlobalVariable.configSetting.daoJiaoBCameraPhotoSetting.gain == null)
+            {
+                GlobalVariable.configSetting.daoJiaoBCameraPhotoSetting.gain = new double[1];
+            }
+
+
+            initMultiImgDetect();
+
+            if (GlobalVariable.configSetting.duanMianAParam.rings == null)
+            {
+                GlobalVariable.configSetting.duanMianAParam.rings = new surfaceDetectRing[Global.ringRegionNum];
+            }
+            if (GlobalVariable.configSetting.duanMianBParam.rings == null)
+            {
+                GlobalVariable.configSetting.duanMianBParam.rings = new surfaceDetectRing[Global.ringRegionNum];
+            }
+            if (GlobalVariable.configSetting.duanMianAParam.circles == null)
+            {
+                GlobalVariable.configSetting.duanMianAParam.circles = new surfaceFindCircle[Global.findCircleNum];
+            }
+            if (GlobalVariable.configSetting.duanMianBParam.circles == null)
+            {
+                GlobalVariable.configSetting.duanMianBParam.circles = new surfaceFindCircle[Global.findCircleNum];
+            }
+
+            if (GlobalVariable.configSetting.duanMianAParam.yaruFindCircle == null)
+            {
+                GlobalVariable.configSetting.duanMianAParam.yaruFindCircle = new surfaceFindCircle[1];
+            }
+            if (GlobalVariable.configSetting.duanMianBParam.yaruFindCircle == null)
+            {
+                GlobalVariable.configSetting.duanMianBParam.yaruFindCircle = new surfaceFindCircle[1];
+            }
+            if (GlobalVariable.configSetting.duanMianAModel.findCircleRadius == null)
+            {
+                GlobalVariable.configSetting.duanMianAModel.findCircleRadius = new float[Global.findCircleNum];
+            }
+            if (GlobalVariable.configSetting.duanMianBModel.findCircleRadius == null)
+            {
+                GlobalVariable.configSetting.duanMianBModel.findCircleRadius = new float[Global.findCircleNum];
+            }
+
+            if (GlobalVariable.configSetting.duanMianAFlag.flags == null)
+            {
+                GlobalVariable.configSetting.duanMianAFlag.flags = new bool[Global.preNum];
+            }
+            if (GlobalVariable.configSetting.duanMianAParam.intParams == null)
+            {
+                GlobalVariable.configSetting.duanMianAParam.intParams = new int[Global.preParamNum];
+            }
+            if (GlobalVariable.configSetting.duanMianAParam.floatParams == null)
+            {
+                GlobalVariable.configSetting.duanMianAParam.floatParams = new float[Global.preParamNum];
+            }
+
+            if (GlobalVariable.configSetting.duanMianBFlag.flags == null)
+            {
+                GlobalVariable.configSetting.duanMianBFlag.flags = new bool[Global.preNum];
+            }
+            if (GlobalVariable.configSetting.duanMianBParam.intParams == null)
+            {
+                GlobalVariable.configSetting.duanMianBParam.intParams = new int[Global.preParamNum];
+            }
+            if (GlobalVariable.configSetting.duanMianBParam.floatParams == null)
+            {
+                GlobalVariable.configSetting.duanMianBParam.floatParams = new float[Global.preParamNum];
+            }
+
+            if (GlobalVariable.configSetting.waiYuanAFlag.flags == null)
+            {
+                GlobalVariable.configSetting.waiYuanAFlag.flags = new bool[Global.preNum];
+            }
+            if (GlobalVariable.configSetting.waiYuanAParam.intParams == null)
+            {
+                GlobalVariable.configSetting.waiYuanAParam.intParams = new int[Global.preParamNum];
+            }
+            if (GlobalVariable.configSetting.waiYuanAParam.floatParams == null)
+            {
+                GlobalVariable.configSetting.waiYuanAParam.floatParams = new float[Global.preParamNum];
+            }
+            #endregion
+
+
+          
+
+            #region 和4个相机的连接，前3个为hik相机，最后一个为dalsa相机。设备分为3相机和4相机的设备，区别为第三个工位的内圈相机
+            string[] cameraSN = {  GlobalVariable.hardwareSetting.DuanMianACameraSn,
+                                   GlobalVariable.hardwareSetting.WaiYuanACameraSn,
+                                   GlobalVariable.hardwareSetting.DaoJiaoACameraSn,
+                                   GlobalVariable.hardwareSetting.NeiKongCameraSn,
+                                   GlobalVariable.hardwareSetting.DuanMianBCameraSn,
+                                   GlobalVariable.hardwareSetting.WaiYuanBCameraSn,
+                                   GlobalVariable.hardwareSetting.DaoJiaoBCameraSn };
+            IAreaScanCameraHelper[] cameraHelper = { GlobalVariable.DuanMianACameraHelper,
+                                                     GlobalVariable.WaiYuanACameraHelper,
+                                                     GlobalVariable.DaoJiaoACameraHelper,
+                                                     GlobalVariable.NeiKongCameraHelper,
+                                                     GlobalVariable.DuanMianBCameraHelper,
+                                                     GlobalVariable.WaiYuanBCameraHelper,
+                                                     GlobalVariable.DaoJiaoBCameraHelper};
+            for (int i = 0; i < 7; i++)
+            {
+                if (GlobalVariable.iWorkStation == 2 && i != 0 && i != 4)
+                {
+                    continue;
+                }
+                bool bRet = cameraHelper[i].CameraOpen(cameraSN[i]);
+                if (bRet)
+                {
+                    richTextBox1.AppendText(DateTime.Now.ToString("HH:mm:ss") + "相机" + (i + 1).ToString() + "打开成功......\r\n");
+                }
+                else
+                {
+                    UIHelper.RichTestBoxAppendTextColorful(richTextBox1, DateTime.Now.ToString("HH:mm:ss") + "相机" + (i + 1).ToString() + "打开失败......\r\n", Color.Red);
+                }
+            }
+            #endregion
+
+            #region 将参数和图片模板发送给算法
+            GlobalVariable.DuanMianAProcess.setModelInfo(GlobalVariable.configSetting.duanMianAModel);
+            GlobalVariable.DuanMianAProcess.setParamInfo(GlobalVariable.configSetting.duanMianAParam);
+            GlobalVariable.DuanMianAProcess.setFlag(GlobalVariable.configSetting.duanMianAFlag);
+            GlobalVariable.DuanMianAProcess.setTypeInfo("Param//" + GlobalVariable.configname);
+            GlobalVariable.DuanMianAProcess.updateModel();
+
+            GlobalVariable.WaiYuanAProcess.setParamInfo(GlobalVariable.configSetting.waiYuanAParam);
+            GlobalVariable.WaiYuanAProcess.setModelInfo(GlobalVariable.configSetting.waiYuanAModel);
+            GlobalVariable.WaiYuanAProcess.setFlag(GlobalVariable.configSetting.waiYuanAFlag);
+            GlobalVariable.WaiYuanAProcess.setROI(GlobalVariable.configSetting.SideOutExtra.LeftX, GlobalVariable.configSetting.SideOutExtra.TopY, GlobalVariable.configSetting.SideOutExtra.RightX, GlobalVariable.configSetting.SideOutExtra.DownY);
+
+            GlobalVariable.DaoJiaoAProcess.setParamInfo(GlobalVariable.configSetting.daoJiaoAParam);
+            GlobalVariable.DaoJiaoAProcess.setModelInfo(GlobalVariable.configSetting.daoJiaoAModel);
+            GlobalVariable.DaoJiaoAProcess.setFlag(GlobalVariable.configSetting.daoJiaoAFlag);
+            //GlobalVariable.DaoJiaoAProcess.setROI(GlobalVariable.configSetting.SideOutExtra.LeftX, GlobalVariable.configSetting.SideOutExtra.TopY, GlobalVariable.configSetting.SideOutExtra.RightX, GlobalVariable.configSetting.SideOutExtra.DownY);
+
+            GlobalVariable.NeiKongProcess.setParamInfo(GlobalVariable.configSetting.neiKongParam);
+            GlobalVariable.NeiKongProcess.setModelInfo(GlobalVariable.configSetting.neiKongModel);
+            GlobalVariable.NeiKongProcess.setFlag(GlobalVariable.configSetting.neiKongFlag);
+
+            GlobalVariable.DuanMianBProcess.setModelInfo(GlobalVariable.configSetting.duanMianBModel);
+            GlobalVariable.DuanMianBProcess.setParamInfo(GlobalVariable.configSetting.duanMianBParam);
+            GlobalVariable.DuanMianBProcess.setFlag(GlobalVariable.configSetting.duanMianBFlag);
+            GlobalVariable.DuanMianBProcess.setTypeInfo("Param//" + GlobalVariable.configname);
+            GlobalVariable.DuanMianBProcess.updateModel();
+
+            GlobalVariable.WaiYuanBProcess.setParamInfo(GlobalVariable.configSetting.waiYuanBParam);
+            GlobalVariable.WaiYuanBProcess.setModelInfo(GlobalVariable.configSetting.waiYuanBModel);
+            GlobalVariable.WaiYuanBProcess.setFlag(GlobalVariable.configSetting.waiYuanBFlag);
+            //GlobalVariable.WaiYuanBProcess.setROI(GlobalVariable.configSetting.SideOutExtra.LeftX, GlobalVariable.configSetting.SideOutExtra.TopY, GlobalVariable.configSetting.SideOutExtra.RightX, GlobalVariable.configSetting.SideOutExtra.DownY);
+
+            GlobalVariable.DaoJiaoBProcess.setParamInfo(GlobalVariable.configSetting.daoJiaoBParam);
+            GlobalVariable.DaoJiaoBProcess.setModelInfo(GlobalVariable.configSetting.daoJiaoBModel);
+            GlobalVariable.DaoJiaoBProcess.setFlag(GlobalVariable.configSetting.daoJiaoBFlag);
+            //GlobalVariable.DaoJiaoBProcess.setROI(GlobalVariable.configSetting.SideOutExtra.LeftX, GlobalVariable.configSetting.SideOutExtra.TopY, GlobalVariable.configSetting.SideOutExtra.RightX, GlobalVariable.configSetting.SideOutExtra.DownY);
+            #endregion
+
+            #region 从配置文件中加载参数设置
+            bRtn = JsonHelper.ReadJsonFile(FilePath.ParamSettingPath + "ParamBackup" + "\\Param.Json", ref GlobalVariable.TmpConfigSetting, ref ErrorMsg);
+            if(bRtn)
+            {
+
+                GlobalVariable.configSetting.waiYuanACameraPhotoSetting = GlobalVariable.TmpConfigSetting.waiYuanACameraPhotoSetting;
+                GlobalVariable.configSetting.waiYuanAFlag = GlobalVariable.TmpConfigSetting.waiYuanAFlag;
+                GlobalVariable.configSetting.waiYuanAParam = GlobalVariable.TmpConfigSetting.waiYuanAParam;
+                GlobalVariable.configSetting.waiYuanAModel = GlobalVariable.TmpConfigSetting.waiYuanAModel;
+
+                GlobalVariable.configSetting.daoJiaoACameraPhotoSetting = GlobalVariable.TmpConfigSetting.daoJiaoACameraPhotoSetting;
+                GlobalVariable.configSetting.daoJiaoAFlag = GlobalVariable.TmpConfigSetting.daoJiaoAFlag;
+                GlobalVariable.configSetting.daoJiaoAParam = GlobalVariable.TmpConfigSetting.daoJiaoAParam;
+
+                GlobalVariable.configSetting.waiYuanBCameraPhotoSetting = GlobalVariable.TmpConfigSetting.waiYuanBCameraPhotoSetting;
+                GlobalVariable.configSetting.waiYuanBFlag = GlobalVariable.TmpConfigSetting.waiYuanBFlag;
+                GlobalVariable.configSetting.waiYuanBParam = GlobalVariable.TmpConfigSetting.waiYuanBParam;
+
+
+                GlobalVariable.configSetting.daoJiaoBCameraPhotoSetting = GlobalVariable.TmpConfigSetting.daoJiaoBCameraPhotoSetting;
+                GlobalVariable.configSetting.daoJiaoBFlag = GlobalVariable.TmpConfigSetting.daoJiaoBFlag;
+                GlobalVariable.configSetting.daoJiaoBParam = GlobalVariable.TmpConfigSetting.daoJiaoBParam;
+
+                GlobalVariable.configSetting.neiKongCameraPhotoSetting = GlobalVariable.TmpConfigSetting.neiKongCameraPhotoSetting;
+                GlobalVariable.configSetting.neiKongFlag = GlobalVariable.TmpConfigSetting.neiKongFlag;
+                GlobalVariable.configSetting.neiKongParam = GlobalVariable.TmpConfigSetting.neiKongParam;
+            }
+
+
+            
+            #region 光源控制器串口除了com口可调，其它都是固定的 19200，8，2，2
+            bRtn = GlobalVariable.lightHelper[0].OpenLightPort(GlobalVariable.hardwareSetting.light1Com);
+            if (!bRtn)
+            {
+                UIHelper.RichTestBoxAppendTextColorful(richTextBox1, DateTime.Now.ToString("HH:mm:ss") + "：打开A面光源串口失败......\r\n", Color.Red);
+                MessageBox.Show("通过串口与A面光源控制器连接失败");
+                bWrong = true;
+            }
+            else
+            {
+                richTextBox1.AppendText(DateTime.Now.ToString("HH:mm:ss") + "：打开A面光源串口成功......\r\n");
+                richTextBox1.Refresh();
+            }
+
+            bRtn = GlobalVariable.lightHelper[1].OpenLightPort(GlobalVariable.hardwareSetting.light2Com);
+            if (!bRtn)
+            {
+                UIHelper.RichTestBoxAppendTextColorful(richTextBox1, DateTime.Now.ToString("HH:mm:ss") + "：打开B面光源串口失败......\r\n", Color.Red);
+                MessageBox.Show("通过串口与B面光源控制器连接失败");
+                bWrong = true;
+            }
+            else
+            {
+                richTextBox1.AppendText(DateTime.Now.ToString("HH:mm:ss") + "：打开B面光源串口成功......\r\n");
+                richTextBox1.Refresh();
+            }
+            GlobalVariable.ioBoardHelper.OpenDevice(0, true, true, 0);
+            GlobalVariable.ioBoardHelper.ReadBaseAdr(0);
+            GlobalVariable.ioBoardHelper.WriteIoByte(0);
+            #endregion
+            #endregion
+
+            #region 创建工作线程
+            //bRtn = CreateThread.StartThread(out ErrorMsg);
+            //if (!bRtn)
+            //{
+            //    UIHelper.RichTestBoxAppendTextColorful(richTextBox1, DateTime.Now.ToString("HH:mm:ss") + "：创建工作线程失败......\r\n", Color.Red);
+            //    MessageBox.Show("创建工作线程错误，错误情况为" + ErrorMsg);
+            //    bWrong = true;
+            //}
+            //else
+            //{
+            //    richTextBox1.AppendText(DateTime.Now.ToString("HH:mm:ss") + "：创建工作线程成功......\r\n");
+            //    richTextBox1.Refresh();
+            //}
+            #endregion
+
+            bRtn = ClearFileFunction.ClearLogFile(5, 3);
+            if (!bRtn)
+            {
+                UIHelper.RichTestBoxAppendTextColorful(richTextBox1, DateTime.Now.ToString("HH:mm:ss") + "：清除历史日志文件失败，错误信息为" + ErrorMsg + "\r\n", Color.Red);
+                MessageBox.Show("清除历史日志文件错误，错误情况为" + ErrorMsg);
+                bWrong = true;
+            }
+            else
+            {
+                richTextBox1.AppendText(DateTime.Now.ToString("HH:mm:ss") + "：清除历史日志文件成功......\r\n");
+            }
+
+            MainForm m = new MainForm(bWrong, TotalErrorMsg);
+            m.Show();
+            if (bWrong)
+            {
+                GlobalVariable.pcState = PCState.Error;
+            }
+            else
+            {
+                Hide();
+            }
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            if (bLoad)
+            {
+                bLoad = false;
+                Load111();
+                timer1.Enabled = false;
+            }
+        }
+    }
+}

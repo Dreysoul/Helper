@@ -1,0 +1,429 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{01AFDBF7-206B-4207-89D4-818354B82D0A}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>YiRongMachine</RootNamespace>
+    <AssemblyName>YiRongMachine</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Company.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Basler.Pylon, Version=1.1.0.0, Culture=neutral, PublicKeyToken=e389355f398382ab, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\Basler.Pylon.dll</HintPath>
+    </Reference>
+    <Reference Include="DALSA.SaperaLT.SapClassBasic, Version=8.20.0.1718, Culture=neutral, PublicKeyToken=4d8604101dcb6b58, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\DALSA.SaperaLT.SapClassBasic.dll</HintPath>
+    </Reference>
+    <Reference Include="DVPCameraCS64, Version=2.0.0.1, Culture=neutral, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\DVPCameraCS64.dll</HintPath>
+    </Reference>
+    <Reference Include="GxIAPINET, Version=1.0.8535.20279, Culture=neutral, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\GxIAPINET.dll</HintPath>
+    </Reference>
+    <Reference Include="MvCameraControl.Net, Version=4.4.0.2, Culture=neutral, PublicKeyToken=a3c7c5e3a730cd12, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\MvCameraControl.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Sharp7, Version=1.1.82.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sharp7.1.1.82\lib\net40\Sharp7.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.DirectoryServices" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AutoFlow\0.CreateThread.cs" />
+    <Compile Include="AutoFlow\DaoJiaoAAutoFlow.cs" />
+    <Compile Include="AutoFlow\DaoJiaoBAutoFlow.cs" />
+    <Compile Include="AutoFlow\MultiImageAutoFlow.cs" />
+    <Compile Include="AutoFlow\NeiKongBAutoFlow.cs" />
+    <Compile Include="AutoFlow\WaiYuanAAutoFlow.cs" />
+    <Compile Include="AutoFlow\WaiYuanBAutoFlow.cs" />
+    <Compile Include="AutoFlow\NeiKongAutoFlow.cs" />
+    <Compile Include="AutoFlow\DuanMianBAutoFlow.cs" />
+    <Compile Include="AutoFlow\DuanMianAAutoFlow.cs" />
+    <Compile Include="Comnication\Camera\BaslerCameraHelper.cs" />
+    <Compile Include="Comnication\Camera\DaHengCameraHelper.cs" />
+    <Compile Include="Comnication\Camera\IAreaScanCameraHelper.cs" />
+    <Compile Include="Comnication\Camera\ILineScanCameraHelper.cs" />
+    <Compile Include="Comnication\IOBoardHelper.cs" />
+    <Compile Include="Comnication\PLC\0.PLCControl.cs" />
+    <Compile Include="Comnication\PLC\1.SanLingFX3GPLCHelper.cs" />
+    <Compile Include="Comnication\PLC\2.OmronPLCHelper.cs" />
+    <Compile Include="Comnication\Camera\HikCameraHelper.cs" />
+    <Compile Include="Comnication\Camera\LightHelper.cs" />
+    <Compile Include="Comnication\PLC\3.SiemensPLCHelper.cs" />
+    <Compile Include="Comnication\PLC\4.HuiChuanPLCHelper.cs" />
+    <Compile Include="Comnication\PLC\5.ModbusRtuPLCHelper.cs" />
+    <Compile Include="Comnication\PLC\6.TaiDaPLCHelper.cs" />
+    <Compile Include="Comnication\Total\1.1.SerialPort.cs" />
+    <Compile Include="Comnication\Total\1.2.TcpClient.cs" />
+    <Compile Include="Comnication\Total\1.3.TcpServer.cs" />
+    <Compile Include="Comnication\Total\ModbusAscii.cs" />
+    <Compile Include="Comnication\Total\ModbusRtu.cs" />
+    <Compile Include="Comnication\Total\PPIProtocol.cs" />
+    <Compile Include="Function\ClearFileFunction.cs" />
+    <Compile Include="Function\RegistrationCodeFunction.cs" />
+    <Compile Include="Global\GlobalEnum.cs" />
+    <Compile Include="Global\GlobalMethod.cs" />
+    <Compile Include="Global\GlobalStruct.cs" />
+    <Compile Include="Global\GlobalVariable.cs" />
+    <Compile Include="Helper\AlarmDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Helper\AlarmDialog.designer.cs">
+      <DependentUpon>AlarmDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Helper\BitMapHelper.cs" />
+    <Compile Include="Helper\ByteToBitHelper.cs" />
+    <Compile Include="Helper\CommonHelper.cs" />
+    <Compile Include="Helper\CSVHelper.cs" />
+    <Compile Include="Helper\FileHelper.cs" />
+    <Compile Include="Helper\IniHelper.cs" />
+    <Compile Include="Helper\JsonHelper.cs" />
+    <Compile Include="Helper\KeyBoardHelper.cs" />
+    <Compile Include="Helper\LogHelper.cs" />
+    <Compile Include="Helper\MyMessageFilter.cs" />
+    <Compile Include="Helper\SecurityHelper.cs" />
+    <Compile Include="Helper\TimeHelper.cs" />
+    <Compile Include="Helper\TransData.cs" />
+    <Compile Include="Helper\UIHelper.cs" />
+    <Compile Include="Helper\UserManager.cs" />
+    <Compile Include="Helper\XMLHelper.cs" />
+    <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="RegistrationCodeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RegistrationCodeForm.designer.cs">
+      <DependentUpon>RegistrationCodeForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="StartForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StartForm.Designer.cs">
+      <DependentUpon>StartForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Camera\MultiZhuJieMian.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Camera\MultiZhuJieMian.Designer.cs">
+      <DependentUpon>MultiZhuJieMian.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Camera\OwnPicBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Camera\OwnPicBox.Designer.cs">
+      <DependentUpon>OwnPicBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Camera\SideABZhuJieMian.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Camera\SideABZhuJieMian.Designer.cs">
+      <DependentUpon>SideABZhuJieMian.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Camera\SideOutZhuJieMian.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Camera\SideOutZhuJieMian.Designer.cs">
+      <DependentUpon>SideOutZhuJieMian.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Home\FrmErrCode.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Home\FrmErrCode.Designer.cs" />
+    <Compile Include="UI\Home\FrmResultInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Home\FrmResultInfo.Designer.cs" />
+    <Compile Include="UI\Home\HomeForm.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Home\HomeForm.Designer.cs">
+      <DependentUpon>HomeForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Home\pictureCtrl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Home\pictureCtrl.Designer.cs">
+      <DependentUpon>pictureCtrl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Home\ShowPictureControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\Home\ShowPictureControl.Designer.cs">
+      <DependentUpon>ShowPictureControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Login\LoginForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Login\LoginForm.designer.cs">
+      <DependentUpon>LoginForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\GongNengSetting\GeneralSettingForm.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\GongNengSetting\GeneralSettingForm.Designer.cs">
+      <DependentUpon>GeneralSettingForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\ParamSetting\CameraDebugForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\ParamSetting\CameraDebugForm.Designer.cs">
+      <DependentUpon>CameraDebugForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\GongNengSetting\GongNengSettingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\GongNengSetting\GongNengSettingForm.Designer.cs">
+      <DependentUpon>GongNengSettingForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\ParamSetting\HardwareSettingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\ParamSetting\HardwareSettingForm.Designer.cs">
+      <DependentUpon>HardwareSettingForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\ParamSetting\HelpForm\LoadConfigForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\ParamSetting\HelpForm\LoadConfigForm.Designer.cs">
+      <DependentUpon>LoadConfigForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\ParamSetting\HelpForm\OtherSaveForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\ParamSetting\HelpForm\OtherSaveForm.Designer.cs">
+      <DependentUpon>OtherSaveForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\GongNengSetting\VendorSettingForm.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\GongNengSetting\VendorSettingForm.Designer.cs">
+      <DependentUpon>VendorSettingForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Camera\PictureMoBanSettingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Camera\PictureMoBanSettingForm.Designer.cs">
+      <DependentUpon>PictureMoBanSettingForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\ParamSetting\MultiImgParamControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\ParamSetting\MultiImgParamControl.Designer.cs">
+      <DependentUpon>MultiImgParamControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\ParamSetting\SideABParamControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\ParamSetting\SideABParamControl.Designer.cs">
+      <DependentUpon>SideABParamControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\ParamSetting\SideOutParamControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\ParamSetting\SideOutParamControl.Designer.cs">
+      <DependentUpon>SideOutParamControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\ParamSetting\ParamSettingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\ParamSetting\ParamSettingForm.Designer.cs">
+      <DependentUpon>ParamSettingForm.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Helper\AlarmDialog.resx">
+      <DependentUpon>AlarmDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RegistrationCodeForm.resx">
+      <DependentUpon>RegistrationCodeForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StartForm.resx">
+      <DependentUpon>StartForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Camera\MultiZhuJieMian.resx">
+      <DependentUpon>MultiZhuJieMian.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Camera\SideABZhuJieMian.resx">
+      <DependentUpon>SideABZhuJieMian.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Camera\SideOutZhuJieMian.resx">
+      <DependentUpon>SideOutZhuJieMian.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Home\FrmErrCode.resx" />
+    <EmbeddedResource Include="UI\Home\FrmResultInfo.resx" />
+    <EmbeddedResource Include="UI\Home\HomeForm.resx">
+      <DependentUpon>HomeForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Home\ShowPictureControl.resx">
+      <DependentUpon>ShowPictureControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Login\LoginForm.resx">
+      <DependentUpon>LoginForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\GongNengSetting\GeneralSettingForm.resx">
+      <DependentUpon>GeneralSettingForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\ParamSetting\CameraDebugForm.resx">
+      <DependentUpon>CameraDebugForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\GongNengSetting\GongNengSettingForm.resx">
+      <DependentUpon>GongNengSettingForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\ParamSetting\HardwareSettingForm.resx">
+      <DependentUpon>HardwareSettingForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\ParamSetting\HelpForm\LoadConfigForm.resx">
+      <DependentUpon>LoadConfigForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\ParamSetting\HelpForm\OtherSaveForm.resx">
+      <DependentUpon>OtherSaveForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\GongNengSetting\VendorSettingForm.resx">
+      <DependentUpon>VendorSettingForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Camera\PictureMoBanSettingForm.resx">
+      <DependentUpon>PictureMoBanSettingForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\ParamSetting\MultiImgParamControl.resx">
+      <DependentUpon>MultiImgParamControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\ParamSetting\SideABParamControl.resx">
+      <DependentUpon>SideABParamControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\ParamSetting\SideOutParamControl.resx">
+      <DependentUpon>SideOutParamControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\ParamSetting\ParamSettingForm.resx">
+      <DependentUpon>ParamSettingForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\Debug\Picture\Camera.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\Debug\Picture\Company.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\Debug\Picture\Data.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\Debug\Picture\Home.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\Debug\Picture\Login.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\Debug\Picture\Setting.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\BearingInspection.IPL\BearingInspection.IPL.csproj">
+      <Project>{7a88c7d2-14b0-492a-a12f-8ab12f8780a4}</Project>
+      <Name>BearingInspection.IPL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\showdemo\01-SvPatMax-掩模添加放射矩阵\SvPatMax\SvPatMax.csproj">
+      <Project>{c7ebf9de-bfcd-4724-aee3-8233dabef491}</Project>
+      <Name>SvPatMax</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DLLProcessing\" />
+    <Folder Include="UI\Data\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Company.ico" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

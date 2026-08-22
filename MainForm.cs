@@ -1,0 +1,155 @@
+﻿using System;
+using System.Drawing;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace YiRongMachine
+{ 
+    public partial class MainForm : Form
+    {
+        public HomeForm homeform;
+        bool previousState = true;
+        public MainForm(bool bWrong, string errorMsg)
+        {
+            InitializeComponent();
+            //防止屏幕闪烁
+            SetStyle(
+            ControlStyles.OptimizedDoubleBuffer
+            | ControlStyles.ResizeRedraw
+            | ControlStyles.Selectable
+            | ControlStyles.AllPaintingInWmPaint
+            | ControlStyles.UserPaint
+            | ControlStyles.SupportsTransparentBackColor,
+            true);
+            this.UpdateStyles();
+
+           
+            homeform = new HomeForm();
+            if (bWrong)
+            {
+                label2.Visible = true;
+                label2.Text = errorMsg;
+                homeform.lblStatus.Text = "错误";
+                homeform.lblStatus.BackColor = Color.Red;
+            }
+           
+            else
+              {
+                label2.Visible = false;
+                GlobalVariable.pcState = PCState.Run;
+                homeform.lblStatus.Text = "正在运行中";
+                homeform.lblStatus.BackColor = Color.Lime;
+            }
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            FormBorderStyle = FormBorderStyle.None;
+            WindowState = FormWindowState.Maximized;
+            panel1.Location = new Point(0, 25);
+            panel1.Height = Height - 25;
+            panel1.Width = Width;
+
+            MaximizeBox = false;
+            homeform.Show();
+            homeform.Visible = true;
+            homeform.Dock = DockStyle.Fill;
+            panel1.Controls.Add(homeform);
+        }
+
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+        }
+
+        private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+        }
+
+        protected override void WndProc(ref Message m)
+        {
+            if (m.Msg == 0x112)
+            {
+                switch ((int)m.WParam)
+                {
+                    //禁止双击标题栏关闭窗体
+                    case 0xF063:
+                    case 0xF093:
+                        m.WParam = IntPtr.Zero;
+                        break;
+                    //禁止拖拽标题栏还原窗体
+                    case 0xF012:
+                    case 0xF010:
+                        m.WParam = IntPtr.Zero;
+                        break;
+                    //禁止双击标题栏
+                    case 0xf122:
+                        m.WParam = IntPtr.Zero;
+                        break;
+                    //禁止关闭按钮
+                    case 0xF060:
+                        //m.WParam = IntPtr.Zero;
+                        break;
+                    //禁止最大化按钮
+                    case 0xf020:
+                        //m.WParam = IntPtr.Zero;
+                        break;
+                    //禁止最小化按钮
+                    case 0xf030:
+                        {
+                            //m.WParam = IntPtr.Zero;
+                        }
+                        break;
+                    //禁止还原按钮
+                    case 0xf120:
+                        //m.WParam = IntPtr.Zero;
+                        break;
+                }
+            }
+            base.WndProc(ref m);
+        }
+
+        private void btnMin_Click(object sender, EventArgs e)
+        {
+            WindowState = FormWindowState.Minimized;
+        }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+      
+            if (MessageBox.Show("是否需要退出程序！！", "！！提示", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                IAreaScanCameraHelper[] cameraHelper = { GlobalVariable.DuanMianACameraHelper,
+                                                     GlobalVariable.WaiYuanACameraHelper,
+                                                     GlobalVariable.DaoJiaoACameraHelper,
+                                                     GlobalVariable.NeiKongCameraHelper,
+                                                     GlobalVariable.DuanMianBCameraHelper,
+                                                     GlobalVariable.WaiYuanBCameraHelper,
+                                                     GlobalVariable.DaoJiaoBCameraHelper};
+                for (int i = 0; i < 7; i++)
+                {
+                    cameraHelper[i].CameraClose();
+                }
+
+                IniHelper.IniWriteInt("DataStatistic", "DuanMianANG", GlobalVariable.totalDataCollect.DuanMianANGNumber, FilePath.UserPasswordPath);
+                IniHelper.IniWriteInt("DataStatistic", "WaiYuanANG", GlobalVariable.totalDataCollect.WaiYuanANGNumber, FilePath.UserPasswordPath);
+                IniHelper.IniWriteInt("DataStatistic", "DaoJiaoANG", GlobalVariable.totalDataCollect.DaoJiaoANGNumber, FilePath.UserPasswordPath);
+                IniHelper.IniWriteInt("DataStatistic", "NeiKongNG", GlobalVariable.totalDataCollect.NeiKongNGNumber, FilePath.UserPasswordPath);
+                IniHelper.IniWriteInt("DataStatistic", "DuanMianBNG", GlobalVariable.totalDataCollect.DuanMianBNGNumber, FilePath.UserPasswordPath);
+                IniHelper.IniWriteInt("DataStatistic", "WaiYuanBNG", GlobalVariable.totalDataCollect.WaiYuanBNGNumber, FilePath.UserPasswordPath);
+                IniHelper.IniWriteInt("DataStatistic", "DaoJiaoBNG", GlobalVariable.totalDataCollect.DaoJiaoBNGNumber, FilePath.UserPasswordPath);
+
+                IniHelper.IniWriteInt("DataStatistic", "DuanMianACOUNT", GlobalVariable.totalBears.DuanMianACount, FilePath.UserPasswordPath);
+                IniHelper.IniWriteInt("DataStatistic", "WaiYuanACOUNT", GlobalVariable.totalBears.WaiYuanACount, FilePath.UserPasswordPath);
+                IniHelper.IniWriteInt("DataStatistic", "DaoJiaoACOUNT", GlobalVariable.totalBears.DaoJiaoACount, FilePath.UserPasswordPath);
+                IniHelper.IniWriteInt("DataStatistic", "NeiKongCOUNT", GlobalVariable.totalBears.NeiKongCount, FilePath.UserPasswordPath);
+                IniHelper.IniWriteInt("DataStatistic", "DuanMianBCOUNT", GlobalVariable.totalBears.DuanMianBCount, FilePath.UserPasswordPath);
+                IniHelper.IniWriteInt("DataStatistic", "WaiYuanBCOUNT", GlobalVariable.totalBears.WaiYuanBCount, FilePath.UserPasswordPath);
+                IniHelper.IniWriteInt("DataStatistic", "DaoJiaoBCOUNT", GlobalVariable.totalBears.DaoJiaoBCount, FilePath.UserPasswordPath);
+                Application.Exit();
+            }
+            else
+            {
+            }
+        }
+    }
+}

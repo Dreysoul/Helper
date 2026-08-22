@@ -1,0 +1,2687 @@
+﻿using BearingInspection;
+using System;
+using System.Collections.Generic;
+using System.Windows.Forms;
+
+namespace YiRongMachine
+{
+    public partial class SideABParamControl : UserControl
+    {
+        public int duanMianAB = 0;
+        private Surface_Param_Info paramAB;
+        private surface_Flag flagAB;
+
+        public SideABParamControl(int side)
+        {
+            duanMianAB = side;
+            InitializeComponent();
+            if (duanMianAB == 0)
+            {
+                paramAB = GlobalVariable.configSetting.duanMianAParam;
+                flagAB = GlobalVariable.configSetting.duanMianAFlag;
+            }
+            else
+            {
+                paramAB = GlobalVariable.configSetting.duanMianBParam;
+                flagAB = GlobalVariable.configSetting.duanMianBFlag;
+            }
+            LoadParam();
+            // 事件绑定
+            List<Control> allControl = new List<Control>();
+            UIHelper.GeiAllControls(this, allControl);
+            for (int i = 0; i < allControl.Count; i++)
+            {
+                if (allControl[i].GetType() == typeof(TextBox))
+                {
+                    allControl[i].KeyPress += UIHelper.textBox_KeyPress;
+                    allControl[i].Enter += UIHelper.textBox_Enter;
+                    allControl[i].Leave += UIHelper.textBox_Leave;
+                }
+            }
+        }
+
+        public void LoadParam()
+        {
+            #region 1
+
+            txt1.Text = paramAB.dwOuterLoopMaxBlackRegionGrayThres.ToString();
+            txt2.Text = paramAB.dwOuterLoopMaxBlackRegionSmoothRadius.ToString();
+            txt3.Text = paramAB.fOuterLoopOuterCircul.ToString("f4");
+            txt5.Text = paramAB.dwOuterLoopMaxRadiusOffset.ToString();
+            txt6.Text = paramAB.dwOuterLoopMaxBlackRegionRadiusOffset.ToString();
+            txt7.Text = paramAB.dwOuterLoopMaxBlackRegionWhiteBlockJindu.ToString("f4");
+            txt9.Text = paramAB.dwOuterLoopMaxBlackRegionWhiteBlockMinArea.ToString();
+            txt10.Text = paramAB.dwOuterLoopMaxBlackRegionWidth.ToString();
+            txt401.Text = paramAB.dwInnerLoopMaxWhiteRegionGrayThres.ToString();
+            txt402.Text = paramAB.dwInnerLoopMaxWhiteRegionSmoothRadius.ToString();
+            txt403.Text = paramAB.fInnerLoopInnerCircul.ToString("f4");
+            txt404.Text = paramAB.fInnerLoopInnerSampleWidth.ToString();
+            txt405.Text = paramAB.dwInnerLoopMinRadiusOffset.ToString();
+            txt406.Text = paramAB.dwInnerLoopMaxBlackRegionRadiusOffset.ToString();
+            txt407.Text = paramAB.dwInnerLoopMaxBlackRegionWhiteBlockJindu.ToString("f4");
+            txt409.Text = paramAB.dwInnerLoopMaxBlackRegionWhiteBlockMinArea.ToString();
+            txt410.Text = paramAB.dwInnerLoopMaxBlackRegionWidth.ToString();
+
+            #endregion 1
+
+            #region 2
+
+            txt20.Text = paramAB.dwOuterLoopGrayThresOffset.ToString();
+            txt21.Text = paramAB.dwOuterLoopMidLoopSmoothRadius.ToString();
+            txt22.Text = paramAB.dwOuterLoopMinLoopSmoothRadius.ToString();
+            txt23.Text = paramAB.dwOuterLoopHighLightOuterOffset.ToString();
+            txt24.Text = paramAB.dwOuterLoopHighLightInnerOffset.ToString();
+            txt25.Text = paramAB.dwOuterLoopMidRadiusOffset.ToString();
+            txt26.Text = paramAB.dwOuterLoopMinRadiusOffset.ToString();
+            txt27.Text = paramAB.dwOuterLoopCenterValueOffset.ToString();
+            txt28.Text = paramAB.dwOuterLoopRoundMaxRatio.ToString("f4");
+            txt29.Text = paramAB.dwOuterLoopHighLightBlackBlockJindu.ToString("f4");
+            txt31.Text = paramAB.dwOuterLoopHighLightBlackBlockMinArea.ToString();
+            txt32.Text = paramAB.dwOuterLoopHightLightBlackBlockMinWidth.ToString();
+            txt33.Text = paramAB.dwOuterLoopHighLightGrayBlockJindu.ToString();
+            txt35.Text = paramAB.dwOuterLoopHighLightGrayBlockMinArea.ToString();
+
+            txt201.Text = paramAB.dwMifengGrayThresOffset.ToString();
+            txt202.Text = paramAB.dwMifengMaxLoopSmoothRadius.ToString();
+            txt203.Text = paramAB.dwMifengMinLoopSmoothRadius.ToString();
+            txt204.Text = paramAB.dwHighLightMifengOuterOffset.ToString();
+            txt205.Text = paramAB.dwHighLightMifengInnerOffset.ToString();
+            txt206.Text = paramAB.dwMifengMaxRadiusOffset.ToString();
+            txt207.Text = paramAB.dwMifengMinRadiusOffset.ToString();
+            txt208.Text = paramAB.dwMifengCenterValueOffset.ToString();
+            txt209.Text = paramAB.dwHighLightMifengBlackBlockGrayRatio.ToString("f4");
+            txt211.Text = paramAB.dwHighLightMifengBlackBlockMinArea.ToString();
+            txt212.Text = paramAB.dwHighLightMifengBlackBlockMinWidth.ToString();
+            txt213.Text = paramAB.dwMifengYaRuOuterOffset.ToString();
+            txt214.Text = paramAB.dwMifengYaRuInnerOffset.ToString();
+            txt215.Text = paramAB.dwMifengYaRuGraytThres.ToString();
+            txt216.Text = paramAB.dwMifengYaRuRegionSmoothRadius.ToString();
+            txt217.Text = paramAB.dwMifengYaRuMaxDistanceOffset.ToString();
+
+            textBox12.Text = paramAB.dwOuterLoopTextGrayOffset.ToString();
+            textBox13.Text = paramAB.dwOuterLoopTextSmoothLen.ToString();
+            textBox14.Text = paramAB.dwOuterLoopTextDistance.ToString();
+            textBox15.Text = paramAB.dwOuterLoopTextPixelDistance.ToString();
+            textBox16.Text = paramAB.outloopTextRegionNum.ToString();
+            textBox18.Text = paramAB.outloopTextRegionMinArea.ToString();
+
+            textBox25.Text = paramAB.yaruFindCircle[0].length.ToString();
+            textBox24.Text = paramAB.yaruFindCircle[0].width.ToString();
+            textBox23.Text = paramAB.yaruFindCircle[0].measureNum.ToString();
+            textBox22.Text = paramAB.yaruFindCircle[0].measureThreshold.ToString();
+            textBox21.Text = paramAB.yaruFindCircle[0].measureSigma.ToString();
+            textBox20.Text = paramAB.yaruFindCircle[0].transition.ToString();
+            textBox19.Text = paramAB.yaruFindCircle[0].measureSelect.ToString();
+
+            txt420.Text = paramAB.dwInnerLoopGrayThresOffset.ToString();
+            txt421.Text = paramAB.dwInnerLoopMaxLoopSmoothRadius.ToString();
+            txt422.Text = paramAB.dwInnerLoopMidLoopSmoothRadius.ToString();
+            txt423.Text = paramAB.dwInnerLoopHighLightOuterOffset.ToString();
+            txt424.Text = paramAB.dwInnerLoopHighLightInnerOffset.ToString();
+            txt425.Text = paramAB.dwInnerLoopMaxRadiusOffset.ToString();
+            txt426.Text = paramAB.dwInnerLoopMidRadiusOffset.ToString();
+            txt427.Text = paramAB.dwInnerLoopCenterValueOffset.ToString();
+            txt428.Text = paramAB.dwInnerLoopRoundMaxRatio.ToString("f4");
+            txt429.Text = paramAB.dwHighLightInnerLoopBlackBlockJindu.ToString("f4");
+            txt431.Text = paramAB.dwHighLightInnerLoopBlackBlockMinArea.ToString();
+            txt432.Text = paramAB.dwHighLightInnerLoopBlackBlockMinWidth.ToString();
+            txt435.Text = paramAB.dwHighLightInnerLoopGrayBlockMinArea.ToString();
+            txt436.Text = paramAB.dwHighLightInnerLoopMeanGrayMinOffset.ToString();
+            t61.Text = paramAB.floatParams[43].ToString("f4");
+
+            #endregion 2
+
+            #region 3
+
+            txt275.Text = paramAB.dwMifengJuanSideRegionGrayThres.ToString();
+            txt276.Text = paramAB.dwMifengJuanSideRegionOuterOffset.ToString();
+            txt277.Text = paramAB.dwMifengJuanSideRegionInnerOffset.ToString();
+            txt278.Text = paramAB.dwMifengJuanSideWidthOffset.ToString();
+            txt279.Text = paramAB.dwMifengJuanSideNunOffset.ToString();
+            txt280.Text = paramAB.dwMifengJuanSideSmoothRadius.ToString();
+
+            txt451.Text = paramAB.dwInnerLoopRoundOuterOffset.ToString();
+            txt452.Text = paramAB.dwInnerLoopRoundInnerOffset.ToString();
+            txt453.Text = paramAB.dwInnerLoopRoundBlackBlockRatio.ToString("f4");
+            txt454.Text = paramAB.dwInnerLoopRoundBlackBlockMinArea.ToString();
+
+            textBox26.Text = paramAB.intParams[1].ToString();
+            textBox27.Text = paramAB.intParams[2].ToString();
+            textBox28.Text = paramAB.intParams[3].ToString();
+            textBox29.Text = paramAB.intParams[4].ToString();
+            textBox30.Text = paramAB.intParams[5].ToString();
+            textBox31.Text = paramAB.intParams[6].ToString();
+
+            textBox41.Text = paramAB.intParams[25].ToString();
+            textBox42.Text = paramAB.intParams[26].ToString();
+            textBox43.Text = paramAB.intParams[27].ToString();
+            textBox44.Text = paramAB.intParams[28].ToString();
+            textBox45.Text = paramAB.intParams[29].ToString();
+            textBox46.Text = paramAB.intParams[30].ToString();
+
+            textBox47.Text = paramAB.floatParams[5].ToString("f4");
+            textBox48.Text = paramAB.floatParams[6].ToString("f4");
+            textBox49.Text = paramAB.floatParams[7].ToString("f4");
+            textBox50.Text = paramAB.floatParams[8].ToString("f4");
+
+            textBox51.Text = paramAB.intParams[31].ToString();
+            textBox52.Text = paramAB.intParams[32].ToString();
+            textBox53.Text = paramAB.intParams[33].ToString();
+            textBox54.Text = paramAB.intParams[34].ToString();
+            textBox55.Text = paramAB.intParams[35].ToString();
+            textBox56.Text = paramAB.intParams[36].ToString();
+
+            textBox57.Text = paramAB.intParams[37].ToString();
+            textBox58.Text = paramAB.intParams[38].ToString();
+            textBox59.Text = paramAB.intParams[39].ToString();
+            textBox60.Text = paramAB.intParams[40].ToString();
+            #endregion 3
+
+            #region 4
+
+            ckb222.Checked = paramAB.bMifengTextRegionTemplateEnable;
+            txt223.Text = paramAB.fMifengTextRegionTemplateStep.ToString("f4");
+            cmb224.SelectedIndex = (int)paramAB.fMifengTextRegionShowMode;
+            txt225.Text = paramAB.fMifengTextRegionTemplateMinMatchScore.ToString("f4");
+            txt227.Text = paramAB.fMifengTextRegionTextFontWidth.ToString();
+            txt228.Text = paramAB.fMifengTextRegionTextPreProcessGrayOffset.ToString();
+            txt229.Text = paramAB.fMifengTextRegionTemplateFilterMinTextArea.ToString();
+            ckb230.Checked = paramAB.bMifengTextRegionTemplateOnlyMatchEnable;
+            txt231.Text = paramAB.dwMifengRegionTextOuterOffset.ToString();
+            txt232.Text = paramAB.dwMifengRegionTextInnerOffset.ToString();
+            txt267.Text = paramAB.dwMifengTextGrayThresOffset.ToString();
+            txt268.Text = paramAB.dwMifengTextPixelDistance.ToString();
+            txt269.Text = paramAB.dwMifengTextDistance.ToString();
+            txt270.Text = paramAB.dwMifengTextGroupOffset.ToString();
+            txt271.Text = paramAB.dwMifengTextNumOffset.ToString();
+            txt272.Text = paramAB.dwMifengTextGroupUionMinLen.ToString();
+            txt273.Text = paramAB.dwMifengTextGroupRatio.ToString("f4");
+            txt274.Text = paramAB.dwMifengTextRegeionMinArea.ToString();
+            txtImage3MifengBlobmaxGray.Text = paramAB.Image3MifengBlobmaxGray.ToString();
+            txtImage3MifengBlobminGray.Text = paramAB.Image3MifengBlobminGray.ToString();
+            txtImage3MifengBlobminArea.Text = paramAB.Image3MifengBlobminArea.ToString();
+            txtImage3MifengBlobmaxOffset.Text = paramAB.Image3MifengBlobmaxOffset.ToString();
+            txtImage3MifengBlobminOffset.Text = paramAB.Image3MifengBlobminOffset.ToString();
+            ckbCalImage3MiFengBlobMethodEnable.Checked = flagAB.CalImage3MiFengBlobMethodEnable;
+
+            #endregion 4
+
+            #region 5
+
+            txt301.Text = paramAB.dwLowLightMifengOuterOffset.ToString();
+            txt302.Text = paramAB.dwLowLightMifengInnerOffset.ToString();
+            txt303.Text = paramAB.dwMifengValidRegionGrayThresOffset.ToString();
+            txt304.Text = paramAB.dwMifengValidRegionMaxLoopSmoothRadius.ToString();
+            txt305.Text = paramAB.dwMifengValidRegionMinLoopSmoothRadius.ToString();
+            txt306.Text = paramAB.dwMifengValidRegionMaxRadiusOffset.ToString();
+            txt307.Text = paramAB.dwMifengValidRegionMinRadiusOffset.ToString();
+            txt308.Text = paramAB.dwMifengBlackBlockGrayOffset.ToString();
+            txt309.Text = paramAB.dwMifengBlackBlockGrayMinArea.ToString();
+            txt310.Text = paramAB.dwMifengGrayBlockGrayOffset.ToString();
+            txt311.Text = paramAB.dwMifengGrayBlockGrayMinArea.ToString();
+            txt312.Text = paramAB.dwMifengMeanGrayMaxOffset.ToString();
+            txt313.Text = paramAB.dwMifengMeanGrayMinOffset.ToString();
+
+            #endregion 5
+
+            #region 6
+
+            textBox1.Text = paramAB.MifengBlobminGray.ToString();
+            textBox2.Text = paramAB.MifengBlobmaxGray.ToString();
+            textBox3.Text = paramAB.MifengBlobminArea.ToString();
+
+            #endregion 6
+
+            #region 7/8/9/10
+
+            txt324.Text = paramAB.dwMifengSubRegionOuterOffset.ToString();
+            txt325.Text = paramAB.dwMifengSubRegionInnerOffset.ToString();
+            txt334.Text = paramAB.dwMifengSuRegionOneMeanGrayMaxOffset.ToString();
+            txt335.Text = paramAB.dwMifengSuRegionTwoMeanGrayMaxOffset.ToString();
+            txt336.Text = paramAB.dwMifengSuRegionThreeMeanGrayMaxOffset.ToString();
+            txt337.Text = paramAB.dwMifengSuRegionFourMeanGrayMaxOffset.ToString();
+            txt338.Text = paramAB.dwMifengBlackRegionRatio.ToString("f4");
+            txt339.Text = paramAB.dwMifengBlackRegionMinArea.ToString();
+            txt340.Text = paramAB.dwMifengBlackRegionMinWidth.ToString();
+            txt341.Text = paramAB.dwMifengWhiteRegionRatio.ToString("f4");
+            txt342.Text = paramAB.dwMifengWhiteRegionMinArea.ToString();
+            txt343.Text = paramAB.dwMifengAokengEdgeJindu.ToString("f4");
+            txt344.Text = paramAB.dwMifengAokengEdgeMinGrayOffset.ToString();
+            txt345.Text = paramAB.dwMifengAokengEdgeMinLen.ToString();
+
+            txt346.Text = paramAB.dwMifengAoKengGaussSmoothLen.ToString();
+            txt347.Text = paramAB.dwMifengBlackAoKengGrayOffset.ToString();
+            txt348.Text = paramAB.dwMifengBlackAoKengMinArea.ToString();
+            txt349.Text = paramAB.dwMifengGrayAoKengGrayOffset.ToString();
+            txt350.Text = paramAB.dwMifengGrayAoKengMinArea.ToString();
+            txt351.Text = paramAB.dwMifengAoKengEdgeFilterMask.ToString();
+            txt352.Text = paramAB.dwMifengAoKengEdgeGrayOffset.ToString();
+            txt353.Text = paramAB.dwMifengAoKengEdgeMinArea.ToString();
+
+            textBox32.Text = paramAB.intParams[21].ToString();
+            textBox33.Text = paramAB.intParams[22].ToString();
+            textBox34.Text = paramAB.floatParams[4].ToString("f4");
+
+            textBox35.Text = paramAB.floatParams[3].ToString("f4");
+            textBox36.Text = paramAB.intParams[20].ToString();
+            textBox37.Text = paramAB.intParams[19].ToString();
+            textBox38.Text = paramAB.intParams[18].ToString();
+            textBox39.Text = paramAB.intParams[17].ToString();
+            textBox40.Text = paramAB.intParams[23].ToString();
+
+            #endregion 7/8/9/10
+
+            #region 11
+
+            txt390.Text = paramAB.dwMifengLowPosLowAngleOuterOffset.ToString();
+            txt391.Text = paramAB.dwMifengLowPosLowAngleInnerOffset.ToString();
+            txt392.Text = paramAB.dwMifengLowPosLowAngleMeanLen.ToString();
+            txt393.Text = paramAB.dwMifengLowPosLowAngleGrayOffset.ToString();
+            txt394.Text = paramAB.dwMifengLowPosLowAngleMinLen.ToString();
+
+            textBox4.Text = paramAB.innerLoopMaxGray.ToString();
+            textBox5.Text = paramAB.innerLoopMinArea.ToString();
+            textBox6.Text = paramAB.minOffsetDynThreshold.ToString();
+            textBox7.Text = paramAB.minAreaDynThreshold.ToString();
+
+            textBox64.Text = paramAB.intParams[42].ToString();
+            textBox61.Text = paramAB.intParams[41].ToString();
+            textBox62.Text = paramAB.floatParams[42].ToString("f4");
+            textBox63.Text = paramAB.floatParams[41].ToString("f4");
+
+            #endregion 11
+
+            textBox11.Text = paramAB.image10OuterMaxGray.ToString();
+            textBox10.Text = paramAB.image10OuterMinArea.ToString();
+            textBox9.Text = paramAB.image10OuterMinOffsetDynThreshold.ToString();
+            textBox8.Text = paramAB.image10OuterMinAreaDynThreshold.ToString();
+
+            #region 12
+
+            txt491.Text = paramAB.dwLowLightInnerLoopOuterOffset.ToString();
+            txt492.Text = paramAB.dwLowLightInnerLoopInnerOffset.ToString();
+            txt493.Text = paramAB.dwLowLightInnerLoopHighBlackBlockGrayRatio.ToString("f4");
+            txt495.Text = paramAB.dwLowLightInnerLoopHighBlackBlockMinArea.ToString();
+            txt496.Text = paramAB.dwLowLightInnerLoopBlackBlockGrayOffset.ToString();
+            txt497.Text = paramAB.dwLowLightInnerLoopBlackBlockMinArea.ToString();
+            txt498.Text = paramAB.dwLowLightInnerLoopBlackBlockFilterMinArea.ToString();
+            txt499.Text = paramAB.dwLowLightInnerLoopAllBlackBlockMinArea.ToString();
+            txt500.Text = paramAB.dwLowLightInnerLoopGrayBlockGrayOffset.ToString();
+            txt501.Text = paramAB.dwLowLightInnerLoopGrayBlockMinArea.ToString();
+            txt502.Text = paramAB.dwLowLightInnerLoopWhiteBlockGrayOffset.ToString();
+            txt503.Text = paramAB.dwLowLightInnerLoopWhiteBlockMinArea.ToString();
+            txt504.Text = paramAB.dwLowLightInnerLoopBlackSideGrayOffset.ToString();
+            txt505.Text = paramAB.dwLowLightInnerLoopBlackSideMinArea.ToString();
+            txt506.Text = paramAB.dwLowLightInnerLoopBlackBlockGrayRatio.ToString("f4");
+            txt525.Text = paramAB.dwLowLightInnerLoopMeanGrayMaxOffset.ToString();
+            txt526.Text = paramAB.dwLowLightInnerLoopMeanGrayMinOffset.ToString();
+
+            #endregion 12
+
+            #region 13
+
+            txt91.Text = paramAB.dwLowLightOuterLoopOuterOffset.ToString();
+            txt92.Text = paramAB.dwLowLightOuterLoopInnerOffset.ToString();
+            txt93.Text = paramAB.dwLowLightOuterLoopHighBlackBlockGrayRatio.ToString("f4");
+            txt95.Text = paramAB.dwLowLightOuterLoopHighBlackBlockMinArea.ToString();
+            txt96.Text = paramAB.dwLowLightOuterLoopBlackBlockGrayOffset.ToString();
+            txt97.Text = paramAB.dwLowLightOuterLoopBlackBlockMinArea.ToString();
+            txt98.Text = paramAB.dwLowLightOuterLoopBlackBlockFilterMinArea.ToString();
+            txt99.Text = paramAB.dwLowLightOuterLoopAllBlackBlockMinArea.ToString();
+            txt100.Text = paramAB.dwLowLightOuterLoopGrayBlockGrayOffset.ToString();
+            txt101.Text = paramAB.dwLowLightOuterLoopGrayBlockMinArea.ToString();
+            txt102.Text = paramAB.dwLowLightOuterLoopWhiteBlockGrayOffset.ToString();
+            txt103.Text = paramAB.dwLowLightOuterLoopWhiteBlockMinArea.ToString();
+            txt104.Text = paramAB.dwLowLightOuterLoopBlackSideGrayOffset.ToString();
+            txt105.Text = paramAB.dwLowLightOuterLoopBlackSideMinArea.ToString();
+            txt106.Text = paramAB.dwLowLightOuterLoopBlackBlockGrayRatio.ToString("f4");
+            txt125.Text = paramAB.dwLowLightOuterLoopMeanGrayMaxOffset.ToString();
+            txt126.Text = paramAB.dwLowLightOuterLoopMeanGrayMinOffset.ToString();
+
+            #endregion 13
+
+            #region flag
+
+            ckbFlag1.Checked = flagAB.FindValidRegionOuterSideWhiteBlockEnable;
+            ckbFlag2.Checked = flagAB.FindValidRegionInnerSideWhiteBlockEnable;
+            ckbFlag3.Checked = flagAB.CalTieMifengYaRuEnable;
+            checkBox5.Checked = paramAB.yaruFindCircle[0].enable;
+            ckbFlag4.Checked = flagAB.CalOuterLoopLackMaterialsEnable;
+            ckbFlag5.Checked = flagAB.CalMifengLackMaterialsEnable;
+            ckbFlag6.Checked = flagAB.CalInnerLoopLackMaterialsEnable;
+            ckbFlag7.Checked = flagAB.CalOuterLoopWasteMaterialsEnable;
+            ckbFlag8.Checked = flagAB.CalInnerLoopWasteMaterialsEnable;
+            ckbFlag9.Checked = flagAB.CalMifengOuterAndInnerSideRegionEnable;
+            ckbFlag10.Checked = flagAB.CalOuterLoopRoundRegionLackMeterialEnable;
+            ckbFlag11.Checked = flagAB.CalMifengLoopRegionSmallBlackBlockByFFtEnable;
+            ckbFlag12.Checked = flagAB.CalMifengLoopRegionBigGrayBlockByFFtEnable;
+            ckbFlag13.Checked = flagAB.FindMifengBlackAoKengEnable;
+            ckbFlag14.Checked = flagAB.FindMifengGrayAoKengEnable;
+            ckbFlag15.Checked = flagAB.FindMifengEdgeAoKengEnable;
+            ckbFlag16.Checked = flagAB.CalMifengHuaHengErrEnable;
+            ckbFlag17.Checked = flagAB.CalInnerLoopRoundRegionEnable;
+            ckbFlag18.Checked = flagAB.CalInnerLoopSmallHightBlackBlockEnable;
+            ckbFlag19.Checked = flagAB.CalInnerLoopSmallBlackBlockByFFTImageEnable;
+            ckbFlag20.Checked = flagAB.CalInnerLoopBigGrayBlockByFFTImageEnable;
+            ckbFlag21.Checked = flagAB.CalInnerLoopWhiteBlockByFFTImageEnable;
+            ckbFlag22.Checked = flagAB.CalInnerLoopBadRegionEnable;
+            ckbFlag23.Checked = flagAB.CalOuterLoopSmallHightBlackBlockEnable;
+            ckbFlag24.Checked = flagAB.CalOuterLoopSmallBlackBlockByFFTImageEnable;
+            ckbFlag25.Checked = flagAB.CalOuterLoopBigGrayBlockByFFTImageEnable;
+            ckbFlag26.Checked = flagAB.CalOuterLoopWhiteBlockByFFTImageEnable;
+            ckbFlag27.Checked = flagAB.CalOuterLoopBadRegionEnable;
+            ckbFlag28.Checked = flagAB.findAllTextModelEnable;
+            ckbFlag29.Checked = flagAB.CalMiFengBlobMethodEnable;
+            checkBox1.Checked = flagAB.calLowRingLightInnerRingBlobMethodEnable;
+            checkBox2.Checked = flagAB.calLowRingLightInnerRingDynThresholdMethodEnable;
+            checkBox3.Checked = flagAB.calLowRingLightOuterRingBlobMethodEnable;
+            checkBox4.Checked = flagAB.calLowRingLightOuterRingDynThresholdMethodEnable;
+            checkBox10.Checked = flagAB.flags[0];
+            checkBox9.Checked = flagAB.flags[1];
+            debugEnable.Checked = flagAB.flags[2];
+            checkBox7.Checked = flagAB.flags[5];
+            checkBox8.Checked = flagAB.flags[8];
+            checkBox11.Checked = flagAB.flags[9];
+            checkBox12.Checked = flagAB.flags[11];
+            checkBox13.Checked = flagAB.flags[10];
+
+            checkBox14.Checked = flagAB.flags[13];
+            checkBox15.Checked = flagAB.flags[12];
+            checkBox16.Checked = flagAB.flags[14];
+            checkBox17.Checked = flagAB.flags[15];
+
+            c19.Checked = flagAB.flags[16];
+
+            #endregion flag
+        }
+
+        public bool SaveParam(ref string ErrorMsg)
+        {
+            #region 1
+
+            paramAB.dwOuterLoopMaxBlackRegionGrayThres = Convert.ToInt32(txt1.Text);
+            paramAB.dwOuterLoopMaxBlackRegionSmoothRadius = Convert.ToInt32(txt2.Text);
+            paramAB.fOuterLoopOuterCircul = (float)Convert.ToDouble(txt3.Text);
+            paramAB.dwOuterLoopMaxRadiusOffset = Convert.ToInt32(txt5.Text);
+            paramAB.dwOuterLoopMaxBlackRegionRadiusOffset = Convert.ToInt32(txt6.Text);
+            paramAB.dwOuterLoopMaxBlackRegionWhiteBlockJindu = (float)Convert.ToDouble(txt7.Text);
+            paramAB.dwOuterLoopMaxBlackRegionWhiteBlockMinArea = Convert.ToInt32(txt9.Text);
+            paramAB.dwOuterLoopMaxBlackRegionWidth = Convert.ToInt32(txt10.Text);
+            paramAB.dwInnerLoopMaxWhiteRegionGrayThres = Convert.ToInt32(txt401.Text);
+            paramAB.dwInnerLoopMaxWhiteRegionSmoothRadius = Convert.ToInt32(txt402.Text);
+            paramAB.fInnerLoopInnerCircul = (float)Convert.ToDouble(txt403.Text);
+
+            paramAB.fInnerLoopInnerSampleWidth = Convert.ToInt32(txt404.Text);
+            paramAB.dwInnerLoopMinRadiusOffset = Convert.ToInt32(txt405.Text);
+            paramAB.dwInnerLoopMaxBlackRegionRadiusOffset = Convert.ToInt32(txt406.Text);
+            paramAB.dwInnerLoopMaxBlackRegionWhiteBlockJindu = (float)Convert.ToDouble(txt407.Text);
+            paramAB.dwInnerLoopMaxBlackRegionWhiteBlockMinArea = Convert.ToInt32(txt409.Text);
+            paramAB.dwInnerLoopMaxBlackRegionWidth = Convert.ToInt32(txt410.Text);
+
+            #endregion 1
+
+            #region 2
+
+            paramAB.dwOuterLoopGrayThresOffset = Convert.ToInt32(txt20.Text);
+            paramAB.dwOuterLoopMidLoopSmoothRadius = Convert.ToInt32(txt21.Text);
+            paramAB.dwOuterLoopMinLoopSmoothRadius = Convert.ToInt32(txt22.Text);
+            paramAB.dwOuterLoopHighLightOuterOffset = Convert.ToInt32(txt23.Text);
+            paramAB.dwOuterLoopHighLightInnerOffset = Convert.ToInt32(txt24.Text);
+            paramAB.dwOuterLoopMidRadiusOffset = Convert.ToInt32(txt25.Text);
+            paramAB.dwOuterLoopMinRadiusOffset = Convert.ToInt32(txt26.Text);
+            paramAB.dwOuterLoopCenterValueOffset = Convert.ToInt32(txt27.Text);
+            paramAB.dwOuterLoopRoundMaxRatio = (float)Convert.ToDouble(txt28.Text);
+            paramAB.dwOuterLoopHighLightBlackBlockJindu = (float)Convert.ToDouble(txt29.Text);
+            paramAB.dwOuterLoopHighLightBlackBlockMinArea = Convert.ToInt32(txt31.Text);
+            paramAB.dwOuterLoopHightLightBlackBlockMinWidth = Convert.ToInt32(txt32.Text);
+            paramAB.dwOuterLoopHighLightGrayBlockJindu = Convert.ToInt32(txt33.Text);
+            paramAB.dwOuterLoopHighLightGrayBlockMinArea = Convert.ToInt32(txt35.Text);
+
+            paramAB.dwMifengGrayThresOffset = Convert.ToInt32(txt201.Text);
+            paramAB.dwMifengMaxLoopSmoothRadius = Convert.ToInt32(txt202.Text);
+            paramAB.dwMifengMinLoopSmoothRadius = Convert.ToInt32(txt203.Text);
+            paramAB.dwHighLightMifengOuterOffset = Convert.ToInt32(txt204.Text);
+            paramAB.dwHighLightMifengInnerOffset = Convert.ToInt32(txt205.Text);
+            paramAB.dwMifengMaxRadiusOffset = Convert.ToInt32(txt206.Text);
+            paramAB.dwMifengMinRadiusOffset = Convert.ToInt32(txt207.Text);
+            paramAB.dwMifengCenterValueOffset = Convert.ToInt32(txt208.Text);
+            paramAB.dwHighLightMifengBlackBlockGrayRatio = (float)Convert.ToDouble(txt209.Text);
+            paramAB.dwHighLightMifengBlackBlockMinArea = Convert.ToInt32(txt211.Text);
+            paramAB.dwHighLightMifengBlackBlockMinWidth = Convert.ToInt32(txt212.Text);
+            paramAB.dwMifengYaRuOuterOffset = Convert.ToInt32(txt213.Text);
+            paramAB.dwMifengYaRuInnerOffset = Convert.ToInt32(txt214.Text);
+            paramAB.dwMifengYaRuGraytThres = Convert.ToInt32(txt215.Text);
+            paramAB.dwMifengYaRuRegionSmoothRadius = Convert.ToInt32(txt216.Text);
+            paramAB.dwMifengYaRuMaxDistanceOffset = Convert.ToInt32(txt217.Text);
+
+            paramAB.dwOuterLoopTextGrayOffset = Convert.ToInt32(textBox12.Text);
+            paramAB.dwOuterLoopTextSmoothLen = Convert.ToInt32(textBox13.Text);
+            paramAB.dwOuterLoopTextDistance = Convert.ToInt32(textBox14.Text);
+            paramAB.dwOuterLoopTextPixelDistance = Convert.ToInt32(textBox15.Text);
+            paramAB.outloopTextRegionNum = Convert.ToInt32(textBox16.Text);
+            paramAB.outloopTextRegionMinArea = Convert.ToInt32(textBox18.Text);
+
+            paramAB.yaruFindCircle[0].length = Convert.ToInt32(textBox25.Text);
+            paramAB.yaruFindCircle[0].width = Convert.ToInt32(textBox24.Text);
+            paramAB.yaruFindCircle[0].measureNum = Convert.ToInt32(textBox23.Text);
+            paramAB.yaruFindCircle[0].measureThreshold = Convert.ToInt32(textBox22.Text);
+            paramAB.yaruFindCircle[0].measureSigma = Convert.ToInt32(textBox21.Text);
+            paramAB.yaruFindCircle[0].transition = Convert.ToInt32(textBox20.Text);
+            paramAB.yaruFindCircle[0].measureSelect = Convert.ToInt32(textBox19.Text);
+
+            paramAB.dwInnerLoopGrayThresOffset = Convert.ToInt32(txt420.Text);
+            paramAB.dwInnerLoopMaxLoopSmoothRadius = Convert.ToInt32(txt421.Text);
+            paramAB.dwInnerLoopMidLoopSmoothRadius = Convert.ToInt32(txt422.Text);
+            paramAB.dwInnerLoopHighLightOuterOffset = Convert.ToInt32(txt423.Text);
+            paramAB.dwInnerLoopHighLightInnerOffset = Convert.ToInt32(txt424.Text);
+            paramAB.dwInnerLoopMaxRadiusOffset = Convert.ToInt32(txt425.Text);
+            paramAB.dwInnerLoopMidRadiusOffset = Convert.ToInt32(txt426.Text);
+            paramAB.dwInnerLoopCenterValueOffset = Convert.ToInt32(txt427.Text);
+
+            paramAB.dwInnerLoopRoundMaxRatio = (float)Convert.ToDouble(txt428.Text);
+            paramAB.dwHighLightInnerLoopBlackBlockJindu = (float)Convert.ToDouble(txt429.Text);
+            paramAB.dwHighLightInnerLoopBlackBlockMinArea = Convert.ToInt32(txt431.Text);
+            paramAB.dwHighLightInnerLoopBlackBlockMinWidth = Convert.ToInt32(txt432.Text);
+            paramAB.dwHighLightInnerLoopGrayBlockMinArea = Convert.ToInt32(txt435.Text);
+            paramAB.dwHighLightInnerLoopMeanGrayMinOffset = Convert.ToInt32(txt436.Text);
+            paramAB.floatParams[43] = (float)Convert.ToDouble(t61.Text);
+
+            #endregion 2
+
+            #region 3
+
+            paramAB.dwMifengJuanSideRegionGrayThres = Convert.ToInt32(txt275.Text);
+            paramAB.dwMifengJuanSideRegionOuterOffset = Convert.ToInt32(txt276.Text);
+            paramAB.dwMifengJuanSideRegionInnerOffset = Convert.ToInt32(txt277.Text);
+            paramAB.dwMifengJuanSideWidthOffset = Convert.ToInt32(txt278.Text);
+            paramAB.dwMifengJuanSideNunOffset = Convert.ToInt32(txt279.Text);
+            paramAB.dwMifengJuanSideSmoothRadius = Convert.ToInt32(txt280.Text);
+
+            paramAB.dwInnerLoopRoundOuterOffset = Convert.ToInt32(txt451.Text);
+            paramAB.dwInnerLoopRoundInnerOffset = Convert.ToInt32(txt452.Text);
+            paramAB.dwInnerLoopRoundBlackBlockRatio = (float)Convert.ToDouble(txt453.Text);
+            paramAB.dwInnerLoopRoundBlackBlockMinArea = Convert.ToUInt32(txt454.Text);
+
+            paramAB.intParams[1] = Convert.ToInt32(textBox26.Text);
+            paramAB.intParams[2] = Convert.ToInt32(textBox27.Text);
+            paramAB.intParams[3] = Convert.ToInt32(textBox28.Text);
+            paramAB.intParams[4] = Convert.ToInt32(textBox29.Text);
+            paramAB.intParams[5] = Convert.ToInt32(textBox30.Text);
+            paramAB.intParams[6] = Convert.ToInt32(textBox31.Text);
+
+
+            paramAB.intParams[25] = Convert.ToInt32(textBox41.Text);
+            paramAB.intParams[26] = Convert.ToInt32(textBox42.Text);
+            paramAB.intParams[27] = Convert.ToInt32(textBox43.Text);
+            paramAB.intParams[28] = Convert.ToInt32(textBox44.Text);
+            paramAB.intParams[29] = Convert.ToInt32(textBox45.Text);
+            paramAB.intParams[30] = Convert.ToInt32(textBox46.Text);
+            paramAB.floatParams[5] = (float)Convert.ToDouble(textBox47.Text);
+            paramAB.floatParams[6] = (float)Convert.ToDouble(textBox48.Text);
+            paramAB.floatParams[7] = (float)Convert.ToDouble(textBox49.Text);
+            paramAB.floatParams[8] = (float)Convert.ToDouble(textBox50.Text);
+
+            paramAB.intParams[31] = Convert.ToInt32(textBox51.Text);
+            paramAB.intParams[32] = Convert.ToInt32(textBox52.Text);
+            paramAB.intParams[33] = Convert.ToInt32(textBox53.Text);
+            paramAB.intParams[34] = Convert.ToInt32(textBox54.Text);
+            paramAB.intParams[35] = Convert.ToInt32(textBox55.Text);
+            paramAB.intParams[36] = Convert.ToInt32(textBox56.Text);
+
+            paramAB.intParams[37] = Convert.ToInt32(textBox57.Text);
+            paramAB.intParams[38] = Convert.ToInt32(textBox58.Text);
+            paramAB.intParams[39] = Convert.ToInt32(textBox59.Text);
+            paramAB.intParams[40] = Convert.ToInt32(textBox60.Text);
+            #endregion 3
+
+            #region 4
+
+            paramAB.bMifengTextRegionTemplateEnable = ckb222.Checked;
+            paramAB.fMifengTextRegionTemplateStep = (float)Convert.ToDouble(txt223.Text);
+            paramAB.fMifengTextRegionShowMode = (uint)cmb224.SelectedIndex;
+            paramAB.fMifengTextRegionTemplateMinMatchScore = (float)Convert.ToDouble(txt225.Text);
+            paramAB.fMifengTextRegionTextFontWidth = Convert.ToUInt32(txt227.Text);
+            paramAB.fMifengTextRegionTextPreProcessGrayOffset = Convert.ToUInt32(txt228.Text);
+            paramAB.fMifengTextRegionTemplateFilterMinTextArea = Convert.ToUInt32(txt229.Text);
+            paramAB.bMifengTextRegionTemplateOnlyMatchEnable = ckb230.Checked;
+            paramAB.dwMifengRegionTextOuterOffset = Convert.ToInt32(txt231.Text);
+            paramAB.dwMifengRegionTextInnerOffset = Convert.ToInt32(txt232.Text);
+            paramAB.Image3MifengBlobmaxGray = Convert.ToInt32(txtImage3MifengBlobmaxGray.Text);
+            paramAB.Image3MifengBlobminGray = Convert.ToInt32(txtImage3MifengBlobminGray.Text);
+            paramAB.Image3MifengBlobminArea = Convert.ToInt32(txtImage3MifengBlobminArea.Text);
+            paramAB.Image3MifengBlobmaxOffset = Convert.ToInt32(txtImage3MifengBlobmaxOffset.Text);
+            paramAB.Image3MifengBlobminOffset = Convert.ToInt32(txtImage3MifengBlobminOffset.Text);
+            flagAB.CalImage3MiFengBlobMethodEnable = ckbCalImage3MiFengBlobMethodEnable.Checked;
+            //paramAB.bMifengTextRegionCheckOne = ckb233.Checked;
+            //paramAB.dwMifengTextRegionOneStartAngle = Convert.ToUInt32(txt234.Text);
+            //paramAB.dwMifengTextRegionOneEndAngle = Convert.ToUInt32(txt235.Text);
+            //paramAB.dwMifengTextRegionOneOuterOffset = Convert.ToInt32(txt236.Text);
+            //paramAB.dwMifengTextRegionOneInnerOffset = Convert.ToInt32(txt237.Text);
+            //paramAB.bMifengTextRegionCheckTwo = ckb238.Checked;
+            //paramAB.dwMifengTextRegionTwoStartAngle = Convert.ToUInt32(txt239.Text);
+            //paramAB.dwMifengTextRegionTwoEndAngle = Convert.ToUInt32(txt240.Text);
+            //paramAB.dwMifengTextRegionTwoOuterOffset = Convert.ToInt32(txt241.Text);
+            //paramAB.dwMifengTextRegionTwoInnerOffset = Convert.ToInt32(txt242.Text);
+            //paramAB.bMifengTextRegionCheckThree = ckb243.Checked;
+            //paramAB.dwMifengTextRegionThreeStartAngle = Convert.ToUInt32(txt244.Text);
+            //paramAB.dwMifengTextRegionThreeEndAngle = Convert.ToUInt32(txt245.Text);
+            //paramAB.dwMifengTextRegionThreeOuterOffset = Convert.ToInt32(txt246.Text);
+            //paramAB.dwMifengTextRegionThreeInnerOffset = Convert.ToInt32(txt247.Text);
+            //paramAB.bMifengTextRegionCheckFour = ckb248.Checked;
+            //paramAB.dwMifengTextRegionFourStartAngle = Convert.ToUInt32(txt249.Text);
+            //paramAB.dwMifengTextRegionFourEndAngle = Convert.ToUInt32(txt250.Text);
+            //paramAB.dwMifengTextRegionFourOuterOffset = Convert.ToInt32(txt251.Text);
+            //paramAB.dwMifengTextRegionFourInnerOffset = Convert.ToInt32(txt252.Text);
+            //paramAB.bMifengNoTextRegionCheck = ckb253.Checked;
+            //paramAB.dwMifengNoTextStartAngle = Convert.ToUInt32(txt254.Text);
+            //paramAB.dwMifengNoTextEndAngle = Convert.ToUInt32(txt255.Text);
+            //paramAB.dwMifengNoTextOuterOffset = Convert.ToInt32(txt256.Text);
+            //paramAB.dwMifengNoTextInnerOffset = Convert.ToInt32(txt257.Text);
+            //paramAB.bMifengKeyTextReconCheck = ckb258.Checked;
+            //paramAB.dwMifengKeyTextStartAngle = Convert.ToUInt32(txt259.Text);
+            //paramAB.dwMifengKeyTextEndAngle = Convert.ToUInt32(txt260.Text);
+            //paramAB.dwMifengKeyTextRegionOuterOffset = Convert.ToInt32(txt261.Text);
+            //paramAB.dwMifengKeyTextRegionInnerOffset = Convert.ToInt32(txt262.Text);
+            paramAB.dwMifengTextGrayThresOffset = Convert.ToInt32(txt267.Text);
+            paramAB.dwMifengTextPixelDistance = Convert.ToInt32(txt268.Text);
+            paramAB.dwMifengTextDistance = Convert.ToInt32(txt269.Text);
+            paramAB.dwMifengTextGroupOffset = Convert.ToInt32(txt270.Text);
+            paramAB.dwMifengTextNumOffset = Convert.ToInt32(txt271.Text);
+            paramAB.dwMifengTextGroupUionMinLen = Convert.ToInt32(txt272.Text);
+            paramAB.dwMifengTextGroupRatio = (float)Convert.ToDouble(txt273.Text);
+            paramAB.dwMifengTextRegeionMinArea = Convert.ToInt32(txt274.Text);
+
+            #endregion 4
+
+            #region 5
+
+            paramAB.dwLowLightMifengOuterOffset = Convert.ToInt32(txt301.Text);
+            paramAB.dwLowLightMifengInnerOffset = Convert.ToInt32(txt302.Text);
+            paramAB.dwMifengValidRegionGrayThresOffset = Convert.ToInt32(txt303.Text);
+            paramAB.dwMifengValidRegionMaxLoopSmoothRadius = Convert.ToInt32(txt304.Text);
+            paramAB.dwMifengValidRegionMinLoopSmoothRadius = Convert.ToInt32(txt305.Text);
+            paramAB.dwMifengValidRegionMaxRadiusOffset = Convert.ToInt32(txt306.Text);
+            paramAB.dwMifengValidRegionMinRadiusOffset = Convert.ToInt32(txt307.Text);
+            paramAB.dwMifengBlackBlockGrayOffset = Convert.ToInt32(txt308.Text);
+            paramAB.dwMifengBlackBlockGrayMinArea = Convert.ToInt32(txt309.Text);
+            paramAB.dwMifengGrayBlockGrayOffset = Convert.ToInt32(txt310.Text);
+            paramAB.dwMifengGrayBlockGrayMinArea = Convert.ToInt32(txt311.Text);
+            paramAB.dwMifengMeanGrayMaxOffset = Convert.ToInt32(txt312.Text);
+            paramAB.dwMifengMeanGrayMinOffset = Convert.ToInt32(txt313.Text);
+
+            #endregion 5
+
+            #region 6
+
+            paramAB.MifengBlobminGray = Convert.ToInt32(textBox1.Text);
+            paramAB.MifengBlobmaxGray = Convert.ToInt32(textBox2.Text);
+            paramAB.MifengBlobminArea = Convert.ToInt32(textBox3.Text);
+
+            #endregion 6
+
+            #region 7/8/9/10
+
+            paramAB.dwMifengSubRegionOuterOffset = Convert.ToInt32(txt324.Text);
+            paramAB.dwMifengSubRegionInnerOffset = Convert.ToInt32(txt325.Text);
+            paramAB.dwMifengSuRegionOneMeanGrayMaxOffset = Convert.ToInt32(txt334.Text);
+            paramAB.dwMifengSuRegionTwoMeanGrayMaxOffset = Convert.ToInt32(txt335.Text);
+            paramAB.dwMifengSuRegionThreeMeanGrayMaxOffset = Convert.ToInt32(txt336.Text);
+            paramAB.dwMifengSuRegionFourMeanGrayMaxOffset = Convert.ToInt32(txt337.Text);
+            paramAB.dwMifengBlackRegionRatio = (float)Convert.ToDouble(txt338.Text);
+            paramAB.dwMifengBlackRegionMinArea = Convert.ToInt32(txt339.Text);
+            paramAB.dwMifengBlackRegionMinWidth = Convert.ToInt32(txt340.Text);
+            paramAB.dwMifengWhiteRegionRatio = (float)Convert.ToDouble(txt341.Text);
+            paramAB.dwMifengWhiteRegionMinArea = Convert.ToInt32(txt342.Text);
+            paramAB.dwMifengAokengEdgeJindu = (float)Convert.ToDouble(txt343.Text);
+            paramAB.dwMifengAokengEdgeMinGrayOffset = Convert.ToInt32(txt344.Text);
+            paramAB.dwMifengAokengEdgeMinLen = Convert.ToInt32(txt345.Text);
+
+            paramAB.dwMifengAoKengGaussSmoothLen = Convert.ToInt32(txt346.Text);
+            paramAB.dwMifengBlackAoKengGrayOffset = Convert.ToInt32(txt347.Text);
+            paramAB.dwMifengBlackAoKengMinArea = Convert.ToInt32(txt348.Text);
+            paramAB.dwMifengGrayAoKengGrayOffset = Convert.ToInt32(txt349.Text);
+            paramAB.dwMifengGrayAoKengMinArea = Convert.ToInt32(txt350.Text);
+            paramAB.dwMifengAoKengEdgeFilterMask = Convert.ToInt32(txt351.Text);
+            paramAB.dwMifengAoKengEdgeGrayOffset = Convert.ToInt32(txt352.Text);
+            paramAB.dwMifengAoKengEdgeMinArea = Convert.ToInt32(txt353.Text);
+
+            paramAB.intParams[21] = Convert.ToInt32(textBox32.Text);
+            paramAB.intParams[22] = Convert.ToInt32(textBox33.Text);
+            paramAB.floatParams[4] = (float)Convert.ToDouble(textBox34.Text);
+            paramAB.floatParams[3] = (float)Convert.ToDouble(textBox35.Text);
+            paramAB.intParams[20] = Convert.ToInt32(textBox36.Text);
+            paramAB.intParams[19] = Convert.ToInt32(textBox37.Text);
+            paramAB.intParams[18] = Convert.ToInt32(textBox38.Text);
+            paramAB.intParams[17] = Convert.ToInt32(textBox39.Text);
+            paramAB.intParams[23] = Convert.ToInt32(textBox40.Text);
+
+            #endregion 7/8/9/10
+
+            #region 11
+
+            paramAB.dwMifengLowPosLowAngleOuterOffset = Convert.ToInt32(txt390.Text);
+            paramAB.dwMifengLowPosLowAngleInnerOffset = Convert.ToInt32(txt391.Text);
+            paramAB.dwMifengLowPosLowAngleMeanLen = Convert.ToInt32(txt392.Text);
+
+            paramAB.dwMifengLowPosLowAngleGrayOffset = Convert.ToInt32(txt393.Text);
+            paramAB.dwMifengLowPosLowAngleMinLen = Convert.ToInt32(txt394.Text);
+
+            paramAB.innerLoopMaxGray = Convert.ToInt32(textBox4.Text);
+            paramAB.innerLoopMinArea = Convert.ToInt32(textBox5.Text);
+            paramAB.minOffsetDynThreshold = Convert.ToInt32(textBox6.Text);
+            paramAB.minAreaDynThreshold = Convert.ToInt32(textBox7.Text);
+
+            paramAB.intParams[41] = Convert.ToInt32(textBox61.Text);
+            paramAB.intParams[42] = Convert.ToInt32(textBox64.Text);
+            paramAB.floatParams[41] = (float)Convert.ToDouble(textBox63.Text);
+            paramAB.floatParams[42] = (float)Convert.ToDouble(textBox62.Text);
+
+            #endregion 11
+
+            paramAB.image10OuterMaxGray = Convert.ToInt32(textBox11.Text);
+            paramAB.image10OuterMinArea = Convert.ToInt32(textBox10.Text);
+            paramAB.image10OuterMinOffsetDynThreshold = Convert.ToInt32(textBox9.Text);
+            paramAB.image10OuterMinAreaDynThreshold = Convert.ToInt32(textBox8.Text);
+
+            #region 12
+
+            paramAB.dwLowLightInnerLoopOuterOffset = Convert.ToInt32(txt491.Text);
+            paramAB.dwLowLightInnerLoopInnerOffset = Convert.ToInt32(txt492.Text);
+            paramAB.dwLowLightInnerLoopHighBlackBlockGrayRatio = (float)Convert.ToDouble(txt493.Text);
+            paramAB.dwLowLightInnerLoopHighBlackBlockMinArea = Convert.ToInt32(txt495.Text);
+            paramAB.dwLowLightInnerLoopBlackBlockGrayOffset = Convert.ToInt32(txt496.Text);
+            paramAB.dwLowLightInnerLoopBlackBlockMinArea = Convert.ToInt32(txt497.Text);
+            paramAB.dwLowLightInnerLoopBlackBlockFilterMinArea = Convert.ToInt32(txt498.Text);
+            paramAB.dwLowLightInnerLoopAllBlackBlockMinArea = Convert.ToInt32(txt499.Text);
+
+            paramAB.dwLowLightInnerLoopGrayBlockGrayOffset = Convert.ToInt32(txt500.Text);
+            paramAB.dwLowLightInnerLoopGrayBlockMinArea = Convert.ToInt32(txt501.Text);
+            paramAB.dwLowLightInnerLoopWhiteBlockGrayOffset = Convert.ToInt32(txt502.Text);
+            paramAB.dwLowLightInnerLoopWhiteBlockMinArea = Convert.ToInt32(txt503.Text);
+            paramAB.dwLowLightInnerLoopBlackSideGrayOffset = Convert.ToInt32(txt504.Text);
+            paramAB.dwLowLightInnerLoopBlackSideMinArea = Convert.ToInt32(txt505.Text);
+            paramAB.dwLowLightInnerLoopBlackBlockGrayRatio = (float)Convert.ToDouble(txt506.Text);
+            paramAB.dwLowLightInnerLoopMeanGrayMaxOffset = Convert.ToInt32(txt525.Text);
+            paramAB.dwLowLightInnerLoopMeanGrayMinOffset = Convert.ToInt32(txt526.Text);
+
+            #endregion 12
+
+            #region 13
+
+            paramAB.dwLowLightOuterLoopOuterOffset = Convert.ToInt32(txt91.Text);
+            paramAB.dwLowLightOuterLoopInnerOffset = Convert.ToInt32(txt92.Text);
+            paramAB.dwLowLightOuterLoopHighBlackBlockGrayRatio = (float)Convert.ToDouble(txt93.Text);
+            paramAB.dwLowLightOuterLoopHighBlackBlockMinArea = Convert.ToInt32(txt95.Text);
+            paramAB.dwLowLightOuterLoopBlackBlockGrayOffset = Convert.ToInt32(txt96.Text);
+            paramAB.dwLowLightOuterLoopBlackBlockMinArea = Convert.ToInt32(txt97.Text);
+            paramAB.dwLowLightOuterLoopBlackBlockFilterMinArea = Convert.ToInt32(txt98.Text);
+            paramAB.dwLowLightOuterLoopAllBlackBlockMinArea = Convert.ToInt32(txt99.Text);
+
+            paramAB.dwLowLightOuterLoopGrayBlockGrayOffset = Convert.ToInt32(txt100.Text);
+            paramAB.dwLowLightOuterLoopGrayBlockMinArea = Convert.ToInt32(txt101.Text);
+            paramAB.dwLowLightOuterLoopWhiteBlockGrayOffset = Convert.ToInt32(txt102.Text);
+            paramAB.dwLowLightOuterLoopWhiteBlockMinArea = Convert.ToInt32(txt103.Text);
+            paramAB.dwLowLightOuterLoopBlackSideGrayOffset = Convert.ToInt32(txt104.Text);
+            paramAB.dwLowLightOuterLoopBlackSideMinArea = Convert.ToInt32(txt105.Text);
+            paramAB.dwLowLightOuterLoopBlackBlockGrayRatio = (float)Convert.ToDouble(txt106.Text);
+            paramAB.dwLowLightOuterLoopMeanGrayMaxOffset = Convert.ToInt32(txt125.Text);
+            paramAB.dwLowLightOuterLoopMeanGrayMinOffset = Convert.ToInt32(txt126.Text);
+
+            #endregion 13
+
+            #region flag
+
+            paramAB.yaruFindCircle[0].enable = checkBox5.Checked;
+            flagAB.FindValidRegionOuterSideWhiteBlockEnable = ckbFlag1.Checked;
+            flagAB.FindValidRegionInnerSideWhiteBlockEnable = ckbFlag2.Checked;
+            flagAB.CalTieMifengYaRuEnable = ckbFlag3.Checked;
+            flagAB.CalOuterLoopLackMaterialsEnable = ckbFlag4.Checked;
+            flagAB.CalMifengLackMaterialsEnable = ckbFlag5.Checked;
+            flagAB.CalInnerLoopLackMaterialsEnable = ckbFlag6.Checked;
+            flagAB.CalOuterLoopWasteMaterialsEnable = ckbFlag7.Checked;
+            flagAB.CalInnerLoopWasteMaterialsEnable = ckbFlag8.Checked;
+            flagAB.CalMifengOuterAndInnerSideRegionEnable = ckbFlag9.Checked;
+            flagAB.CalOuterLoopRoundRegionLackMeterialEnable = ckbFlag10.Checked;
+            flagAB.CalMifengLoopRegionSmallBlackBlockByFFtEnable = ckbFlag11.Checked;
+            flagAB.CalMifengLoopRegionBigGrayBlockByFFtEnable = ckbFlag12.Checked;
+            flagAB.FindMifengBlackAoKengEnable = ckbFlag13.Checked;
+            flagAB.FindMifengGrayAoKengEnable = ckbFlag14.Checked;
+            flagAB.FindMifengEdgeAoKengEnable = ckbFlag15.Checked;
+            flagAB.CalMifengHuaHengErrEnable = ckbFlag16.Checked;
+            flagAB.CalInnerLoopRoundRegionEnable = ckbFlag17.Checked;
+            flagAB.CalInnerLoopSmallHightBlackBlockEnable = ckbFlag18.Checked;
+            flagAB.CalInnerLoopSmallBlackBlockByFFTImageEnable = ckbFlag19.Checked;
+            flagAB.CalInnerLoopBigGrayBlockByFFTImageEnable = ckbFlag20.Checked;
+            flagAB.CalInnerLoopWhiteBlockByFFTImageEnable = ckbFlag21.Checked;
+            flagAB.CalInnerLoopBadRegionEnable = ckbFlag22.Checked;
+            flagAB.CalOuterLoopSmallHightBlackBlockEnable = ckbFlag23.Checked;
+            flagAB.CalOuterLoopSmallBlackBlockByFFTImageEnable = ckbFlag24.Checked;
+            flagAB.CalOuterLoopBigGrayBlockByFFTImageEnable = ckbFlag25.Checked;
+            flagAB.CalOuterLoopWhiteBlockByFFTImageEnable = ckbFlag26.Checked;
+            flagAB.CalOuterLoopBadRegionEnable = ckbFlag27.Checked;
+            flagAB.findAllTextModelEnable = ckbFlag28.Checked;
+            flagAB.CalMiFengBlobMethodEnable = ckbFlag29.Checked;
+            flagAB.calLowRingLightInnerRingBlobMethodEnable = checkBox1.Checked;
+            flagAB.calLowRingLightInnerRingDynThresholdMethodEnable = checkBox2.Checked;
+            flagAB.calLowRingLightOuterRingBlobMethodEnable = checkBox3.Checked;
+            flagAB.calLowRingLightOuterRingDynThresholdMethodEnable = checkBox4.Checked;
+            flagAB.flags[0] = checkBox10.Checked;
+            flagAB.flags[1] = checkBox9.Checked;
+            flagAB.flags[2] = debugEnable.Checked;
+            flagAB.flags[5] = checkBox7.Checked;
+            flagAB.flags[8] = checkBox8.Checked;
+            flagAB.flags[9] = checkBox11.Checked;
+            flagAB.flags[11] = checkBox12.Checked;
+            flagAB.flags[10] = checkBox13.Checked;
+            flagAB.flags[13] = checkBox14.Checked;
+            flagAB.flags[12] = checkBox15.Checked;
+            flagAB.flags[14] = checkBox16.Checked;
+            flagAB.flags[15] = checkBox17.Checked;
+            flagAB.flags[16] = c19.Checked;
+            #endregion flag
+
+            if (duanMianAB == 0)
+            {
+                GlobalVariable.configSetting.duanMianAParam = paramAB;
+                GlobalVariable.configSetting.duanMianAFlag = flagAB;
+            }
+            else if (duanMianAB == 1)
+            {
+                GlobalVariable.configSetting.duanMianBParam = paramAB;
+                GlobalVariable.configSetting.duanMianBFlag = flagAB;
+            }
+            return true;
+        }
+
+        #region 图片1：最大值最小值默认值
+
+        private void txt1_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "180";
+                return;
+            }
+        }
+
+        private void txt2_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "350";
+                return;
+            }
+        }
+
+        private void txt3_Leave(object sender, EventArgs e)
+        {
+            double ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!double.TryParse(t.Text, out ccc))
+            {
+                t.Text = "0.9";
+                return;
+            }
+        }
+
+        private void txt5_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "5";
+                return;
+            }
+        }
+
+        private void txt6_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "-8";
+                return;
+            }
+        }
+
+        private void txt7_Leave(object sender, EventArgs e)
+        {
+            double ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!double.TryParse(t.Text, out ccc))
+            {
+                t.Text = "2.5";
+                return;
+            }
+        }
+
+        private void txt9_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "150";
+                return;
+            }
+        }
+
+        private void txt10_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "5";
+                return;
+            }
+        }
+
+        private void txt401_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "220";
+                return;
+            }
+        }
+
+        private void txt402_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "10";
+                return;
+            }
+        }
+
+        private void txt403_Leave(object sender, EventArgs e)
+        {
+            double ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!double.TryParse(t.Text, out ccc))
+            {
+                t.Text = "0.9";
+                return;
+            }
+        }
+
+        private void txt404_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "40";
+                return;
+            }
+        }
+
+        private void txt405_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "5";
+                return;
+            }
+        }
+
+        private void txt406_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "8";
+                return;
+            }
+        }
+
+        private void txt407_Leave(object sender, EventArgs e)
+        {
+            double ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!double.TryParse(t.Text, out ccc))
+            {
+                t.Text = "3";
+                return;
+            }
+        }
+
+        private void txt409_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "150";
+                return;
+            }
+        }
+
+        private void txt410_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "5";
+                return;
+            }
+        }
+
+        #endregion 图片1：最大值最小值默认值
+
+        #region 图片2：最大值最小值默认值
+
+        private void txt20_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "70";
+                return;
+            }
+        }
+
+        private void txt21_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "12";
+                return;
+            }
+        }
+
+        private void txt22_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "12";
+                return;
+            }
+        }
+
+        private void txt23_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "-3";
+                return;
+            }
+        }
+
+        private void txt24_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "2";
+                return;
+            }
+        }
+
+        private void txt25_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "6";
+                return;
+            }
+        }
+
+        private void txt26_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "4";
+                return;
+            }
+        }
+
+        private void txt27_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "4";
+                return;
+            }
+        }
+
+        private void txt28_Leave(object sender, EventArgs e)
+        {
+            double ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!double.TryParse(t.Text, out ccc))
+            {
+                t.Text = "0.5";
+                return;
+            }
+        }
+
+        private void txt29_Leave(object sender, EventArgs e)
+        {
+            double ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!double.TryParse(t.Text, out ccc))
+            {
+                t.Text = "0.5";
+                return;
+            }
+        }
+
+        private void txt31_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "50";
+                return;
+            }
+        }
+
+        private void txt32_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "4";
+                return;
+            }
+        }
+
+        private void txt33_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "30";
+                return;
+            }
+        }
+
+        private void txt35_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "1500";
+                return;
+            }
+        }
+
+        private void txt420_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "70";
+                return;
+            }
+        }
+
+        private void txt421_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "12";
+                return;
+            }
+        }
+
+        private void txt422_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "12";
+                return;
+            }
+        }
+
+        private void txt423_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "-2";
+                return;
+            }
+        }
+
+        private void txt424_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "3";
+                return;
+            }
+        }
+
+        private void txt425_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "4";
+                return;
+            }
+        }
+
+        private void txt426_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "6";
+                return;
+            }
+        }
+
+        private void txt427_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "4";
+                return;
+            }
+        }
+
+        private void txt428_Leave(object sender, EventArgs e)
+        {
+            double ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!double.TryParse(t.Text, out ccc))
+            {
+                t.Text = "0.5";
+                return;
+            }
+        }
+
+        private void txt429_Leave(object sender, EventArgs e)
+        {
+            double ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!double.TryParse(t.Text, out ccc))
+            {
+                t.Text = "0.5";
+                return;
+            }
+        }
+
+        private void txt431_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "50";
+                return;
+            }
+        }
+
+        private void txt432_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "4";
+                return;
+            }
+        }
+
+        private void txt436_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "40";
+                return;
+            }
+        }
+
+        private void txt435_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "500";
+                return;
+            }
+        }
+
+        private void txt201_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "50";
+                return;
+            }
+        }
+
+        private void txt202_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "15";
+                return;
+            }
+        }
+
+        private void txt203_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "15";
+                return;
+            }
+        }
+
+        private void txt204_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "-8";
+                return;
+            }
+        }
+
+        private void txt205_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "8";
+                return;
+            }
+        }
+
+        private void txt206_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "8";
+                return;
+            }
+        }
+
+        private void txt207_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "8";
+                return;
+            }
+        }
+
+        private void txt208_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "10";
+                return;
+            }
+        }
+
+        private void txt209_Leave(object sender, EventArgs e)
+        {
+            double ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!double.TryParse(t.Text, out ccc))
+            {
+                t.Text = "0.4";
+                return;
+            }
+        }
+
+        private void txt211_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "200";
+                return;
+            }
+        }
+
+        private void txt212_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "4";
+                return;
+            }
+        }
+
+        private void txt213_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "-1";
+                return;
+            }
+        }
+
+        private void txt214_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "50";
+                return;
+            }
+        }
+
+        private void txt215_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "120";
+                return;
+            }
+        }
+
+        private void txt216_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "10";
+                return;
+            }
+        }
+
+        private void txt217_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "5";
+                return;
+            }
+        }
+
+        #endregion 图片2：最大值最小值默认值
+
+        #region 图片3：最大值最小值默认值
+
+        private void txt275_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "150";
+                return;
+            }
+        }
+
+        private void txt276_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "-3";
+                return;
+            }
+        }
+
+        private void txt277_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "40";
+                return;
+            }
+        }
+
+        private void txt278_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "15";
+                return;
+            }
+        }
+
+        private void txt279_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "0";
+                return;
+            }
+        }
+
+        private void txt280_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "3";
+                return;
+            }
+        }
+
+        private void txt303_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "50";
+                return;
+            }
+        }
+
+        private void txt304_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "15";
+                return;
+            }
+        }
+
+        private void txt305_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "15";
+                return;
+            }
+        }
+
+        private void txt306_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "20";
+                return;
+            }
+        }
+
+        private void txt307_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "20";
+                return;
+            }
+        }
+
+        private void txt451_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "-10";
+                return;
+            }
+        }
+
+        private void txt452_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "10";
+                return;
+            }
+        }
+
+        private void txt453_Leave(object sender, EventArgs e)
+        {
+            double ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!double.TryParse(t.Text, out ccc))
+            {
+                t.Text = "0.5";
+                return;
+            }
+        }
+
+        private void txt454_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "200";
+                return;
+            }
+        }
+
+        #endregion 图片3：最大值最小值默认值
+
+
+
+        #region 图片4：最大值最小值默认值
+
+        private void txt223_Leave(object sender, EventArgs e)
+        {
+            double ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!double.TryParse(t.Text, out ccc))
+            {
+                t.Text = "1";
+                return;
+            }
+        }
+
+        private void txt225_Leave(object sender, EventArgs e)
+        {
+            double ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!double.TryParse(t.Text, out ccc))
+            {
+                t.Text = "0.2";
+                return;
+            }
+        }
+
+        private void txt227_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "15";
+                return;
+            }
+        }
+
+        private void txt229_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "30";
+                return;
+            }
+        }
+
+        private void txt231_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "-15";
+                return;
+            }
+        }
+
+        private void txt232_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "15";
+                return;
+            }
+        }
+
+        private void txt228_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "30";
+                return;
+            }
+        }
+
+        private void txt267_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "25";
+                return;
+            }
+        }
+
+        private void txt268_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "5";
+                return;
+            }
+        }
+
+        private void txt269_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "50";
+                return;
+            }
+        }
+
+        private void txt270_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "0";
+                return;
+            }
+        }
+
+        private void txt271_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "0";
+                return;
+            }
+        }
+
+        private void txt272_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "80";
+                return;
+            }
+        }
+
+        private void txt273_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "0.75";
+                return;
+            }
+        }
+
+        private void txt274_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "200";
+                return;
+            }
+        }
+
+        #endregion 图片4：最大值最小值默认值
+
+
+
+        #region 图片5：最大值最小值默认值
+
+        private void txt301_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "-15";
+                return;
+            }
+        }
+
+        private void txt302_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "10";
+                return;
+            }
+        }
+
+        private void txt308_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "50";
+                return;
+            }
+        }
+
+        private void txt309_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "200";
+                return;
+            }
+        }
+
+        private void txt310_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "30";
+                return;
+            }
+        }
+
+        private void txt311_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "500";
+                return;
+            }
+        }
+
+        private void txt312_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "70";
+                return;
+            }
+        }
+
+        private void txt313_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "50";
+                return;
+            }
+        }
+
+        #endregion 图片5：最大值最小值默认值
+
+        #region 图片78910：最大值最小值默认值
+
+        private void txt324_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "-15";
+                return;
+            }
+        }
+
+        private void txt325_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "25";
+                return;
+            }
+        }
+
+        private void txt334_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "50";
+                return;
+            }
+        }
+
+        private void txt335_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "50";
+                return;
+            }
+        }
+
+        private void txt336_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "50";
+                return;
+            }
+        }
+
+        private void txt337_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "50";
+                return;
+            }
+        }
+
+        private void txt338_Leave(object sender, EventArgs e)
+        {
+            double ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!double.TryParse(t.Text, out ccc))
+            {
+                t.Text = "2";
+                return;
+            }
+        }
+
+        private void txt339_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "300";
+                return;
+            }
+        }
+
+        private void txt340_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "5";
+                return;
+            }
+        }
+
+        private void txt341_Leave(object sender, EventArgs e)
+        {
+            double ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!double.TryParse(t.Text, out ccc))
+            {
+                t.Text = "0.7";
+                return;
+            }
+        }
+
+        private void txt342_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "300";
+                return;
+            }
+        }
+
+        private void txt343_Leave(object sender, EventArgs e)
+        {
+            double ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!double.TryParse(t.Text, out ccc))
+            {
+                t.Text = "0.05";
+                return;
+            }
+        }
+
+        private void txt344_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "70";
+                return;
+            }
+        }
+
+        private void txt345_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "30";
+                return;
+            }
+        }
+
+        private void txt346_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "5";
+                return;
+            }
+        }
+
+        private void txt347_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "120";
+                return;
+            }
+        }
+
+        private void txt348_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "200";
+                return;
+            }
+        }
+
+        private void txt349_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "90";
+                return;
+            }
+        }
+
+        private void txt350_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "400";
+                return;
+            }
+        }
+
+        private void txt351_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "5";
+                return;
+            }
+        }
+
+        private void txt352_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "85";
+                return;
+            }
+        }
+
+        private void txt353_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "320";
+                return;
+            }
+        }
+
+        #endregion 图片78910：最大值最小值默认值
+
+
+
+        #region 图片11：最大值最小值默认值
+
+        private void txt390_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "-20";
+                return;
+            }
+        }
+
+        private void txt391_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "15";
+                return;
+            }
+        }
+
+        private void txt392_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "15";
+                return;
+            }
+        }
+
+        private void txt393_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "50";
+                return;
+            }
+        }
+
+        private void txt394_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "60";
+                return;
+            }
+        }
+
+        #endregion 图片11：最大值最小值默认值
+
+        #region 图片12：最大值最小值默认值
+
+        private void txt491_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "-6";
+                return;
+            }
+        }
+
+        private void txt492_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "6";
+                return;
+            }
+        }
+
+        private void txt493_Leave(object sender, EventArgs e)
+        {
+            double ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!double.TryParse(t.Text, out ccc))
+            {
+                t.Text = "0.4";
+                return;
+            }
+        }
+
+        private void txt495_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "30";
+                return;
+            }
+        }
+
+        private void txt496_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "60";
+                return;
+            }
+        }
+
+        private void txt497_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "50";
+                return;
+            }
+        }
+
+        private void txt498_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "20";
+                return;
+            }
+        }
+
+        private void txt499_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "80";
+                return;
+            }
+        }
+
+        private void txt506_Leave(object sender, EventArgs e)
+        {
+            float ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!float.TryParse(t.Text, out ccc))
+            {
+                t.Text = "0.7";
+                return;
+            }
+        }
+
+        private void txt500_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "35";
+                return;
+            }
+        }
+
+        private void txt501_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "400";
+                return;
+            }
+        }
+
+        private void txt525_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "50";
+                return;
+            }
+        }
+
+        private void txt526_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "50";
+                return;
+            }
+        }
+
+        #endregion 图片12：最大值最小值默认值
+
+
+
+        #region 图片13：最大值最小值默认值
+
+        private void txt91_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "-6";
+                return;
+            }
+        }
+
+        private void txt92_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "6";
+                return;
+            }
+        }
+
+        private void txt93_Leave(object sender, EventArgs e)
+        {
+            double ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!double.TryParse(t.Text, out ccc))
+            {
+                t.Text = "0.4";
+                return;
+            }
+        }
+
+        private void txt95_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "30";
+                return;
+            }
+        }
+
+        private void txt96_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "60";
+                return;
+            }
+        }
+
+        private void txt97_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "50";
+                return;
+            }
+        }
+
+        private void txt98_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "20";
+                return;
+            }
+        }
+
+        private void txt99_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "80";
+                return;
+            }
+        }
+
+        private void txt106_Leave(object sender, EventArgs e)
+        {
+            float ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!float.TryParse(t.Text, out ccc))
+            {
+                t.Text = "0.7";
+                return;
+            }
+        }
+
+        private void txt100_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "35";
+                return;
+            }
+        }
+
+        private void txt101_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "400";
+                return;
+            }
+        }
+
+        private void txt125_Leave(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "50";
+                return;
+            }
+        }
+
+        private void txt126_Validated(object sender, EventArgs e)
+        {
+            int ccc = 0;
+            TextBox t = sender as TextBox;
+            if (!int.TryParse(t.Text, out ccc))
+            {
+                t.Text = "50";
+                return;
+            }
+        }
+
+        #endregion 图片13：最大值最小值默认值
+
+        private void btnOpen_Click(object sender, EventArgs e)
+        {
+            #region flag
+
+            ckbFlag1.Checked = true;
+            ckbFlag2.Checked = true;
+            ckbFlag3.Checked = true;
+            ckbFlag4.Checked = true;
+            ckbFlag5.Checked = true;
+            ckbFlag6.Checked = true;
+            ckbFlag7.Checked = true;
+            ckbFlag8.Checked = true;
+            ckbFlag9.Checked = true;
+            ckbFlag10.Checked = true;
+            ckbFlag11.Checked = true;
+            ckbFlag12.Checked = true;
+            ckbFlag13.Checked = true;
+            ckbFlag14.Checked = true;
+            ckbFlag15.Checked = true;
+            ckbFlag16.Checked = true;
+            ckbFlag17.Checked = true;
+            ckbFlag18.Checked = true;
+            ckbFlag19.Checked = true;
+            ckbFlag20.Checked = true;
+            ckbFlag21.Checked = true;
+            ckbFlag22.Checked = true;
+            ckbFlag23.Checked = true;
+            ckbFlag24.Checked = true;
+            ckbFlag25.Checked = true;
+            ckbFlag26.Checked = true;
+            ckbFlag27.Checked = true;
+            ckbFlag28.Checked = true;
+            ckbFlag29.Checked = true;
+            checkBox1.Checked = true;
+            checkBox2.Checked = true;
+            checkBox3.Checked = true;
+            checkBox4.Checked = true;
+
+            #endregion flag
+
+            string errorMsg = "";
+            bool bRtn = SaveParam(ref errorMsg);
+            if (bRtn)
+            {
+                MessageBox.Show("打开所有算子成功");
+            }
+            else
+            {
+                MessageBox.Show("打开所有算子失败！！！！！\r\n错误原因为" + errorMsg);
+            }
+        }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            #region flag
+
+            ckbFlag1.Checked = false;
+            ckbFlag2.Checked = false;
+            ckbFlag3.Checked = false;
+            ckbFlag4.Checked = false;
+            ckbFlag5.Checked = false;
+            ckbFlag6.Checked = false;
+            ckbFlag7.Checked = false;
+            ckbFlag8.Checked = false;
+            ckbFlag9.Checked = false;
+            ckbFlag10.Checked = false;
+            ckbFlag11.Checked = false;
+            ckbFlag12.Checked = false;
+            ckbFlag13.Checked = false;
+            ckbFlag14.Checked = false;
+            ckbFlag15.Checked = false;
+            ckbFlag16.Checked = false;
+            ckbFlag17.Checked = false;
+            ckbFlag18.Checked = false;
+            ckbFlag19.Checked = false;
+            ckbFlag20.Checked = false;
+            ckbFlag21.Checked = false;
+            ckbFlag22.Checked = false;
+            ckbFlag23.Checked = false;
+            ckbFlag24.Checked = false;
+            ckbFlag25.Checked = false;
+            ckbFlag26.Checked = false;
+            ckbFlag27.Checked = false;
+            ckbFlag28.Checked = false;
+            ckbFlag29.Checked = false;
+            checkBox1.Checked = false;
+            checkBox2.Checked = false;
+            checkBox3.Checked = false;
+            checkBox4.Checked = false;
+
+            #endregion flag
+
+            string errorMsg = "";
+            bool bRtn = SaveParam(ref errorMsg);
+            if (bRtn)
+            {
+                MessageBox.Show("关闭所有算子成功");
+            }
+            else
+            {
+                MessageBox.Show("关闭所有算子失败！！！！！\r\n错误原因为" + errorMsg);
+            }
+        }
+
+        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
+        {
+            int index = Convert.ToInt32(numericUpDown1.Value);
+            if (index > Global.preParamNum - 1 || index < 0)
+            {
+                index = 0;
+                numericUpDown1.Value = index;
+            }
+            numericUpDown2.Value = paramAB.intParams[index];
+        }
+
+        private void numericUpDown2_ValueChanged(object sender, EventArgs e)
+        {
+            int index = Convert.ToInt32(numericUpDown1.Value);
+            if (index > Global.preParamNum - 1 || index < 0)
+            {
+                index = 0;
+                numericUpDown1.Value = index;
+            }
+            paramAB.intParams[index] = Convert.ToInt32(numericUpDown2.Value);
+        }
+
+        private void floatNUD1_ValueChanged(object sender, EventArgs e)
+        {
+            int index = Convert.ToInt32(floatNUD1.Value);
+            if (index > Global.preParamNum - 1 || index < 0)
+            {
+                index = 0;
+                floatNUD1.Value = index;
+            }
+            floatNUD2.Value = (decimal)paramAB.floatParams[index];
+        }
+
+        private void floatNUD2_ValueChanged(object sender, EventArgs e)
+        {
+            int index = Convert.ToInt32(floatNUD1.Value);
+            if (index > Global.preParamNum - 1 || index < 0)
+            {
+                index = 0;
+                floatNUD1.Value = index;
+            }
+            paramAB.floatParams[index] = (float)Convert.ToDouble(floatNUD2.Value);
+        }
+
+        private void boolNUD1_ValueChanged(object sender, EventArgs e)
+        {
+            int index = Convert.ToInt32(boolNUD1.Value);
+            if (index > Global.preNum - 1 || index < 0)
+            {
+                index = 0;
+                boolNUD1.Value = index;
+            }
+            checkBox6.Checked = flagAB.flags[index];
+        }
+
+        private void checkBox6_CheckedChanged(object sender, EventArgs e)
+        {
+            int index = Convert.ToInt32(boolNUD1.Value);
+            if (index > Global.preNum - 1 || index < 0)
+            {
+                index = 0;
+                boolNUD1.Value = index;
+            }
+            flagAB.flags[index] = checkBox6.Checked;
+        }
+
+        private void debugEnable_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+    }
+}
